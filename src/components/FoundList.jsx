@@ -4,6 +4,7 @@ import PetCard from "./PetCard";
 import InfiniteScroll from 'react-infinite-scroll-component';
 import { useEffect, useState } from "react";
 import Container from '@mui/material/Container';
+import CircularProgress from '@mui/material/CircularProgress';
 
 export default function FoundList() {
   const [foundList, setFoundList] = useState([]);
@@ -54,7 +55,11 @@ export default function FoundList() {
         dataLength={foundList.length}
         next={getMoreFound}
         hasMore={true}
-        loader={<h4>Loading...</h4>}
+        // TODO: Fix scrollbar bug when loading more
+        loader={
+          <div style={{display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
+            <CircularProgress color="success"/>
+          </div>}
       >
         {foundList.map((pet) => (
         <PetCard
@@ -62,6 +67,7 @@ export default function FoundList() {
           name={pet.name}
           breed={pet.breed}
           image={pet.image}
+          when={pet.when}
         />
       ))}
       </InfiniteScroll>
