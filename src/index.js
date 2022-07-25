@@ -10,16 +10,15 @@ import '@fontsource/roboto/500.css';
 import '@fontsource/roboto/700.css';
 import FoundList from './components/FoundList';
 import NotFound from './components/NotFound';
-import Found from './components/Found';
+import PetInfo from './components/PetInfo';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <BrowserRouter>
     <Routes>
       <Route path="/" element={<App />}>
-        <Route path="list" element={<FoundList />}>
-          <Route path=":foundId" element={<Found />} />
-        </Route>
+        <Route path="list" element={<FoundList />} />
+        <Route path="/list/:foundId" element={<PetInfo />} />
       </Route>
       <Route path="*" element={<NotFound />} />
     </Routes>

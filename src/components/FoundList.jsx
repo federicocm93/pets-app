@@ -1,10 +1,10 @@
-import { Outlet } from "react-router-dom";
 import { getFoundList } from '../data';
 import PetCard from "./PetCard";
 import InfiniteScroll from 'react-infinite-scroll-component';
 import { useEffect, useState } from "react";
 import Container from '@mui/material/Container';
 import CircularProgress from '@mui/material/CircularProgress';
+import { Link } from "react-router-dom"
 
 export default function FoundList() {
   const [foundList, setFoundList] = useState([]);
@@ -62,16 +62,17 @@ export default function FoundList() {
           </div>}
       >
         {foundList.map((pet) => (
-        <PetCard
-          key={pet.id}
-          name={pet.name}
-          breed={pet.breed}
-          image={pet.image}
-          when={pet.when}
-        />
+          <Link to={`${pet.id}`} key={pet.id} style={{ textDecoration: 'none' }}>
+            <PetCard
+              key={pet.id}
+              name={pet.name}
+              breed={pet.breed}
+              image={pet.image}
+              when={pet.when}
+            />
+          </Link>
       ))}
       </InfiniteScroll>
-      <Outlet />
     </Container>
   );
 }
