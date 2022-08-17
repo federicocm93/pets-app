@@ -1,5 +1,5 @@
 import db from '../db/firebase';
-import { collection, getDocs, addDoc } from "firebase/firestore";
+import { collection, getDocs, query, where, addDoc } from "firebase/firestore";
 
 export const addPet = (pet) => {
   try {
@@ -23,3 +23,14 @@ export async function getPets() {
     };
   });
 };
+
+export async function getPetsById (id) {
+  const querySnapshot = await getDocs(query(collection(db, "lost_pets"), where("id", "==", id)));
+  return querySnapshot.docs.map(doc => {
+    return {
+      id: doc.id,
+      ...doc.data()
+    };
+  })[0];
+};
+

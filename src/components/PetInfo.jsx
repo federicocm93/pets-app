@@ -4,14 +4,21 @@ import CardMedia from '@mui/material/CardMedia';
 import Typography from '@mui/material/Typography';
 import { CardActionArea, Container } from '@mui/material';
 import { useParams } from 'react-router-dom';
-import { getFound } from '../data';
+import { getPetsById } from '../api/pets.service';
+import { useEffect, useState } from 'react';
 
 export default function PetInfo() {
   let params = useParams();
-  let found = getFound(parseInt(params.foundId, 10));
+  const [found, setFound] = useState({});
+
+  useEffect(() => {
+    getPetsById(parseInt(params.foundId, 10)).then((data) => {
+      setFound(data);
+    });
+  }, []);
 
   return (
-    <Container>
+    <Container style={{ paddingTop: 100 }}>
       <Card
         sx={{ margin: 2 }}
       >
