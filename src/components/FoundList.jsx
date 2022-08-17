@@ -5,12 +5,15 @@ import { useEffect, useState } from "react";
 import Container from '@mui/material/Container';
 import CircularProgress from '@mui/material/CircularProgress';
 import { Link } from "react-router-dom"
+import { getPets } from "../api/pets.service";
 
 export default function FoundList() {
   const [foundList, setFoundList] = useState([]);
 
   useEffect(() => {
-    setFoundList(getFoundList());
+    getPets().then((data) => {
+      setFoundList(data);
+    });
   }, []);
 
   // TODO: Replace with api call
@@ -50,7 +53,8 @@ export default function FoundList() {
   };
 
   return (
-    <Container maxWidth="sm">
+    // TODO: Replace inline style with better implementation
+    <Container maxWidth="sm" style={{ paddingTop: 100 }}>
       <InfiniteScroll
         dataLength={foundList.length}
         next={getMoreFound}
