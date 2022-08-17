@@ -98,8 +98,8 @@ export default function PersistentSidebar({title, mainOptions, secondaryOptions}
         <Divider />
         <List>
           {mainOptions.map(({text, Icon, path}, index) => (
-            <Link to={path} style={{ textDecoration: 'none', color: 'black' }}>
-              <ListItem key={index} disablePadding>
+            <Link to={path} key={index} style={{ textDecoration: 'none', color: 'black' }}>
+              <ListItem disablePadding>
                 <ListItemButton>
                   <ListItemIcon>
                     <Icon />
@@ -115,6 +115,7 @@ export default function PersistentSidebar({title, mainOptions, secondaryOptions}
           {secondaryOptions.map(({text, Icon, path}, index) => (
             <Link
               to={path}
+              key={index}
               // Had to use inline styles because they do not work inside links
               style={{
                 textDecoration: 'none',
@@ -124,12 +125,14 @@ export default function PersistentSidebar({title, mainOptions, secondaryOptions}
                 textAlign: "center",
                 paddingBottom: 10
               }}>
-                <ListItemButton>
-                  <ListItemIcon>
-                    <Icon />
-                  </ListItemIcon>
-                  <ListItemText primary={text} />
-                </ListItemButton>
+                <ListItem disablePadding>
+                  <ListItemButton>
+                    <ListItemIcon>
+                      <Icon />
+                    </ListItemIcon>
+                    <ListItemText primary={text} />
+                  </ListItemButton>
+                </ListItem>
             </Link>
           ))}
         </List>
