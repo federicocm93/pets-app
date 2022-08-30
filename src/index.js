@@ -11,6 +11,7 @@ import '@fontsource/roboto/700.css';
 import FoundList from './components/FoundList';
 import NotFound from './components/NotFound';
 import PetInfo from './components/PetInfo';
+import NewFound from './components/NewFound';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
@@ -19,6 +20,7 @@ root.render(
       <Route path="/" element={<App />}>
         <Route path="list" element={<FoundList />} />
         <Route path="/list/:foundId" element={<PetInfo />} />
+        <Route path="/found" element={<NewFound />} />
       </Route>
       <Route path="*" element={<NotFound />} />
     </Routes>
