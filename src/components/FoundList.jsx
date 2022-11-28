@@ -2,7 +2,7 @@ import PetCard from "./PetCard";
 import InfiniteScroll from "react-infinite-scroll-component";
 import { useEffect, useState } from "react";
 import Container from "@mui/material/Container";
-import CircularProgress from "@mui/material/CircularProgress";
+import LinearProgress from "@mui/material/LinearProgress";
 import { Link } from "react-router-dom";
 import { getPets } from "../api/pets.service";
 
@@ -11,7 +11,6 @@ export default function FoundList() {
 
   useEffect(() => {
     getPets().then((data) => {
-      console.log(data);
       setFoundList(data);
     });
   }, []);
@@ -59,21 +58,22 @@ export default function FoundList() {
 
   return (
     // TODO: Replace inline style with better implementation
-    <Container maxWidth="sm" style={{ paddingTop: 100 }}>
+    <Container
+      id="scrollableContainer"
+      maxWidth="sm"
+      style={{ marginTop: "100px", height: "100%", overflow: "hidden" }}
+    >
       <InfiniteScroll
         dataLength={foundList.length}
         next={getMoreFound}
         hasMore={true}
         // TODO: Fix scrollbar bug when loading more
         loader={
-          <div
-            style={{
-              display: "flex",
-              justifyContent: "center",
-              alignItems: "center",
-            }}
-          >
-            <CircularProgress color="success" />
+          <div>
+            <LinearProgress
+              color="success"
+              style={{ width: "90%", margin: "0 auto" }}
+            />
           </div>
         }
       >

@@ -1,4 +1,4 @@
-import db from '../db/firebase';
+import db from "../db/firebase";
 import { collection, getDocs, query, where, addDoc } from "firebase/firestore";
 
 export const addPet = (pet) => {
@@ -7,7 +7,7 @@ export const addPet = (pet) => {
       name: pet.name,
       breed: pet.breed,
       image: pet.image,
-      when: pet.when
+      when: pet.when,
     });
   } catch (e) {
     console.error("Error adding document: ", e);
@@ -16,21 +16,22 @@ export const addPet = (pet) => {
 
 export async function getPets() {
   const querySnapshot = await getDocs(collection(db, "lost_pets"));
-  return querySnapshot.docs.map(doc => {
+  return querySnapshot.docs.map((doc) => {
     return {
       id: doc.id,
-      ...doc.data()
+      ...doc.data(),
     };
   });
-};
+}
 
-export async function getPetsById (id) {
-  const querySnapshot = await getDocs(query(collection(db, "lost_pets"), where("id", "==", id)));
-  return querySnapshot.docs.map(doc => {
+export async function getPetsById(id) {
+  const querySnapshot = await getDocs(
+    query(collection(db, "lost_pets"), where("id", "==", id))
+  );
+  return querySnapshot.docs.map((doc) => {
     return {
       id: doc.id,
-      ...doc.data()
+      ...doc.data(),
     };
   })[0];
-};
-
+}
