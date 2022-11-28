@@ -1,16 +1,15 @@
-import { TextField } from '@mui/material';
-import React from 'react';
-import { useField } from 'formik';
+import { TextField } from "@mui/material";
+import React from "react";
+import { useField } from "formik";
 
-export default function TextInput({ name, ...props}) {
-
+export default function TextInput({ name, ...props }) {
   const [field, meta] = useField(name);
 
   const config = {
     ...field,
     ...props,
     fullWidth: true,
-    variant: 'outlined'
+    variant: "outlined",
   };
 
   if (meta && meta.touched && meta.error) {
@@ -18,7 +17,5 @@ export default function TextInput({ name, ...props}) {
     config.helperText = meta.error;
   }
 
-  return (
-    <TextField {...config} />
-  );
-};
+  return <TextField {...config} />;
+}

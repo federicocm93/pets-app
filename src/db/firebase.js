@@ -9,7 +9,7 @@ const firebaseConfig = {
   projectId: "pets-97bc5",
   storageBucket: "pets-97bc5.appspot.com",
   messagingSenderId: "513807483940",
-  appId: "1:513807483940:web:27891fe11fa276a8b744b1"
+  appId: "1:513807483940:web:27891fe11fa276a8b744b1",
 };
 
 // Initialize Firebase
