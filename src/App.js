@@ -1,16 +1,21 @@
 import { Container } from "@mui/system";
 import { Outlet } from "react-router-dom";
 import PersistentSidebar from "./components/PersistentSidebar";
-import Pets from '@mui/icons-material/Pets';
-import EmojiPeople from '@mui/icons-material/EmojiPeople';
+import Pets from "@mui/icons-material/Pets";
+import AddIcon from "@mui/icons-material/Add";
+import EmojiPeople from "@mui/icons-material/EmojiPeople";
 
 function App() {
-
-  const sidebarMainOptions =  [
+  const sidebarMainOptions = [
     {
       text: "Perdidos",
       Icon: Pets,
-      path: "/list"
+      path: "/list",
+    },
+    {
+      text: "Nuevo",
+      Icon: AddIcon,
+      path: "/found",
     },
   ];
 
@@ -18,7 +23,7 @@ function App() {
     {
       text: "Nosotros",
       Icon: EmojiPeople,
-      path: "/about"
+      path: "/about",
     },
   ];
 
@@ -27,11 +32,11 @@ function App() {
       <PersistentSidebar
         title={"Pets App"}
         mainOptions={sidebarMainOptions}
-        secondaryOptions={sidebarSecondaryOptions}/>
+        secondaryOptions={sidebarSecondaryOptions}
+      />
       <Outlet />
     </Container>
   );
-
 }
 
 export default App;

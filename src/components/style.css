@@ -1,0 +1,10 @@
+.centered-img {
+  max-width: 100%;
+  max-height: 100vh;
+  margin: auto;
+}
+
+.card {
+  padding: 2;
+  overflow: "hidden";
+}
