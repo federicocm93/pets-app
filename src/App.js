@@ -4,18 +4,28 @@ import PersistentSidebar from "./components/PersistentSidebar";
 import Pets from "@mui/icons-material/Pets";
 import AddIcon from "@mui/icons-material/Add";
 import EmojiPeople from "@mui/icons-material/EmojiPeople";
-import { ThemeProvider, createTheme } from "@mui/material/styles";
+import {
+  ThemeProvider,
+  createTheme,
+  responsiveFontSizes,
+} from "@mui/material/styles";
 
-const theme = createTheme({
+let theme = createTheme({
   palette: {
     primary: {
-      main: "#53a39c",
+      main: "#17b978",
+      contrastText: "#ffff",
     },
     secondary: {
-      main: "#c5a289",
+      main: "#086972",
+    },
+    text: {
+      primary: "#212427",
     },
   },
 });
+
+theme = responsiveFontSizes(theme);
 
 function App() {
   const sidebarMainOptions = [

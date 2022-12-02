@@ -1,8 +1,8 @@
 import PetCard from "./PetCard";
 import InfiniteScroll from "react-infinite-scroll-component";
 import { useEffect, useState } from "react";
-import Container from "@mui/material/Container";
-import LinearProgress from "@mui/material/LinearProgress";
+import { Container, Skeleton, Grid, Fab } from "@mui/material";
+import AddIcon from "@mui/icons-material/Add";
 import { Link } from "react-router-dom";
 import { getPets } from "../api/pets.service";
 
@@ -63,18 +63,52 @@ export default function FoundList() {
       maxWidth="sm"
       style={{ marginTop: "100px", height: "100%", overflow: "hidden" }}
     >
+      <Link to="../found">
+        <Fab
+          color="primary"
+          aria-label="add"
+          style={{
+            position: "fixed",
+            bottom: "5%",
+            right: "5%",
+            transform: "scale(1.2)",
+          }}
+        >
+          <AddIcon />
+        </Fab>
+      </Link>
       <InfiniteScroll
         dataLength={foundList.length}
         next={getMoreFound}
         hasMore={true}
         // TODO: Fix scrollbar bug when loading more
         loader={
-          <div>
-            <LinearProgress
-              color="success"
-              style={{ width: "90%", margin: "0 auto" }}
-            />
-          </div>
+          <Grid sx={{ flexGrow: 1 }} container spacing={2}>
+            <Grid item xs={12}>
+              <Skeleton
+                variant="rectangular"
+                animation="wave"
+                height={350}
+                sx={{ borderRadius: 2 }}
+              />
+            </Grid>
+            <Grid item xs={12}>
+              <Skeleton
+                variant="rectangular"
+                animation="wave"
+                height={350}
+                sx={{ borderRadius: 2 }}
+              />
+            </Grid>
+            <Grid item xs={12}>
+              <Skeleton
+                variant="rectangular"
+                animation="wave"
+                height={350}
+                sx={{ borderRadius: 2 }}
+              />
+            </Grid>
+          </Grid>
         }
       >
         {foundList.map((pet) => (

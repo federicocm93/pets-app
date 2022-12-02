@@ -6,9 +6,9 @@ import { CardActionArea } from "@mui/material";
 
 export default function PetCard({ name, breed, image, when }) {
   return (
-    <Card sx={{ margin: 2 }}>
+    <Card sx={{ margin: 2, borderRadius: 2 }}>
       <CardActionArea>
-        <CardMedia component="img" height="300" image={image} />
+        <CardMedia component="img" image={image} />
         <CardContent>
           <Typography gutterBottom variant="h5" component="div">
             {name}

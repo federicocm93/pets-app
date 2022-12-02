@@ -1,12 +1,11 @@
 import { Container, Grid, Paper, Typography } from "@mui/material";
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import { addPet } from "../api/pets.service";
 import { Formik, Form } from "formik";
 import * as Yup from "yup";
 import TextInput from "./shared/TextInput";
 import Button from "@mui/material/Button";
 import "./style.css";
-import { useState } from "react";
 
 export default function NewFound() {
   const [previewImage, setPreviewImage] = useState();
@@ -39,10 +38,15 @@ export default function NewFound() {
 
   return (
     <Container style={{ paddingTop: 100 }}>
-      <Typography variant="h5" component="div" align="center">
-        Ingresá los datos de la mascota que encontraste
+      <Typography
+        align="center"
+        color="textPrimary"
+        paddingBottom={2}
+        sx={{ typography: { sm: "h4", xs: "h5" } }}
+      >
+        Ingresá los datos de la mascota
       </Typography>
-      <Paper sx={{ padding: 2, overflow: "hidden" }}>
+      <Paper sx={{ padding: 2, overflow: "hidden", borderRadius: 2 }}>
         <Formik
           initialValues={INITIAL_FORM_VALUES}
           validationSchema={FORM_VALIDATION}
@@ -50,9 +54,8 @@ export default function NewFound() {
         >
           {({ values, handleChange, isValid, dirty, setFieldValue }) => (
             <Form>
-              <Grid container spacing={2}>
+              <Grid container spacing={2} alignItems="center">
                 <Grid item xs={12} align="center">
-                  {/* TODO: Implement image selector */}
                   <img
                     alt="img"
                     src={
@@ -93,6 +96,8 @@ export default function NewFound() {
                     variant="contained"
                     type="submit"
                     disabled={!isValid || !dirty}
+                    color="secondary"
+                    sx={{ width: "100%" }}
                   >
                     Guardar
                   </Button>

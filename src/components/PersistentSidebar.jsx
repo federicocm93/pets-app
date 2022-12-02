@@ -72,12 +72,12 @@ export default function PersistentSidebar({ mainOptions, secondaryOptions }) {
               ...(open && { display: "none" }),
             }}
           >
-            <MenuIcon />
+            <MenuIcon fontSize="large" />
           </IconButton>
           <img
             alt="icon"
             src={logo}
-            style={{ height: "5%", width: "20%", margin: "1% auto" }}
+            style={{ height: "5%", width: "30%", margin: "1% auto" }}
           />
         </Toolbar>
       </AppBar>
