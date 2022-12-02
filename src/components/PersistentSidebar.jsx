@@ -5,7 +5,6 @@ import Drawer from "@mui/material/Drawer";
 import MuiAppBar from "@mui/material/AppBar";
 import Toolbar from "@mui/material/Toolbar";
 import List from "@mui/material/List";
-import Typography from "@mui/material/Typography";
 import Divider from "@mui/material/Divider";
 import IconButton from "@mui/material/IconButton";
 import MenuIcon from "@mui/icons-material/Menu";
@@ -15,6 +14,8 @@ import ListItem from "@mui/material/ListItem";
 import ListItemButton from "@mui/material/ListItemButton";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
+import logo from "../logo.png";
+import logoBlack from "../logo_black.png";
 import { Link } from "react-router-dom";
 
 const drawerWidth = 240;
@@ -45,11 +46,7 @@ const DrawerHeader = styled("div")(({ theme }) => ({
   justifyContent: "flex-end",
 }));
 
-export default function PersistentSidebar({
-  title,
-  mainOptions,
-  secondaryOptions,
-}) {
+export default function PersistentSidebar({ mainOptions, secondaryOptions }) {
   const theme = useTheme();
   const [open, setOpen] = React.useState(false);
 
@@ -63,20 +60,25 @@ export default function PersistentSidebar({
 
   return (
     <Box sx={{ display: "flex" }}>
-      <AppBar position="fixed" open={open}>
+      <AppBar position="fixed" open={open} color="primary">
         <Toolbar>
           <IconButton
             color="inherit"
             aria-label="open drawer"
             onClick={handleDrawerOpen}
             edge="start"
-            sx={{ mr: 2, ...(open && { display: "none" }) }}
+            sx={{
+              mr: 2,
+              ...(open && { display: "none" }),
+            }}
           >
             <MenuIcon />
           </IconButton>
-          <Typography variant="h6" noWrap component="div">
-            {title}
-          </Typography>
+          <img
+            alt="icon"
+            src={logo}
+            style={{ height: "5%", width: "20%", margin: "1% auto" }}
+          />
         </Toolbar>
       </AppBar>
       <Drawer
@@ -93,6 +95,11 @@ export default function PersistentSidebar({
         open={open}
       >
         <DrawerHeader>
+          <img
+            alt="icon"
+            src={logoBlack}
+            style={{ height: "30px", width: "120px", margin: "1% auto" }}
+          />
           <IconButton onClick={handleDrawerClose}>
             {theme.direction === "ltr" ? (
               <ChevronLeftIcon />
@@ -102,7 +109,7 @@ export default function PersistentSidebar({
           </IconButton>
         </DrawerHeader>
         <Divider />
-        <List>
+        <List onClick={handleDrawerClose}>
           {mainOptions.map(({ text, Icon, path }, index) => (
             <Link
               to={path}
@@ -121,7 +128,7 @@ export default function PersistentSidebar({
           ))}
         </List>
         <Divider />
-        <List>
+        <List onClick={handleDrawerClose}>
           {secondaryOptions.map(({ text, Icon, path }, index) => (
             <Link
               to={path}

@@ -39,7 +39,7 @@ export default function NewFound() {
 
   return (
     <Container style={{ paddingTop: 100 }}>
-      <Typography variant="h3" component="div" align="center">
+      <Typography variant="h5" component="div" align="center">
         Ingresá los datos de la mascota que encontraste
       </Typography>
       <Paper sx={{ padding: 2, overflow: "hidden" }}>
