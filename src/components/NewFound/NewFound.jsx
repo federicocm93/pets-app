@@ -1,11 +1,12 @@
 import { Container, Grid, Paper, Typography } from "@mui/material";
 import { useRef, useState } from "react";
-import { addPet } from "../api/pets.service";
+import { addImage, addPet } from "../../api/pets.service";
 import { Formik, Form } from "formik";
 import * as Yup from "yup";
-import TextInput from "./shared/TextInput";
+import TextInput from "../Shared/TextInput";
 import Button from "@mui/material/Button";
-import "./style.css";
+import styles from "./NewFound.module.css";
+import "../style.css";
 
 export default function NewFound() {
   const [previewImage, setPreviewImage] = useState();
@@ -26,7 +27,10 @@ export default function NewFound() {
 
   const save = (values) => {
     console.log(values);
-    // addPet();
+    addImage(values.image).then((imageUrl) => {
+      values.image = imageUrl;
+      addPet(values);
+    });
   };
 
   const uploadFile = () => {
@@ -37,7 +41,7 @@ export default function NewFound() {
   const inputFile = useRef(null);
 
   return (
-    <Container style={{ paddingTop: 100 }}>
+    <Container className={styles.container}>
       <Typography
         align="center"
         color="textPrimary"
@@ -70,7 +74,7 @@ export default function NewFound() {
                     name="file"
                     id="file"
                     ref={inputFile}
-                    style={{ display: "none" }}
+                    className={styles.input}
                     onChange={(event) => {
                       setFieldValue("image", event.target.files[0]);
                       setPreviewImage(

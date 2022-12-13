@@ -1,10 +1,11 @@
-import PetCard from "./PetCard";
+import PetCard from "../PetCard";
 import InfiniteScroll from "react-infinite-scroll-component";
 import { useEffect, useState } from "react";
 import { Container, Skeleton, Grid, Fab } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
 import { Link } from "react-router-dom";
-import { getPets } from "../api/pets.service";
+import { getPets } from "../../api/pets.service";
+import styles from "./FoundList.module.css";
 
 export default function FoundList() {
   const [foundList, setFoundList] = useState([]);
@@ -61,7 +62,7 @@ export default function FoundList() {
     <Container
       id="scrollableContainer"
       maxWidth="sm"
-      style={{ marginTop: "100px", height: "100%", overflow: "hidden" }}
+      className={styles.container}
     >
       <Link to="../found">
         <Fab

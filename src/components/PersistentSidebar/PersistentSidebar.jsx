@@ -14,8 +14,9 @@ import ListItem from "@mui/material/ListItem";
 import ListItemButton from "@mui/material/ListItemButton";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
-import logo from "../logo.png";
-import logoBlack from "../logo_black.png";
+import logo from "../../logo.png";
+import logoBlack from "../../logo_black.png";
+import styles from "./PersistentSidebar.module.css";
 import { Link } from "react-router-dom";
 
 const drawerWidth = 240;
@@ -74,11 +75,7 @@ export default function PersistentSidebar({ mainOptions, secondaryOptions }) {
           >
             <MenuIcon fontSize="large" />
           </IconButton>
-          <img
-            alt="icon"
-            src={logo}
-            style={{ height: "5%", width: "30%", margin: "1% auto" }}
-          />
+          <img alt="icon" src={logo} className={styles.logo} />
         </Toolbar>
       </AppBar>
       <Drawer
@@ -95,11 +92,7 @@ export default function PersistentSidebar({ mainOptions, secondaryOptions }) {
         open={open}
       >
         <DrawerHeader>
-          <img
-            alt="icon"
-            src={logoBlack}
-            style={{ height: "30px", width: "120px", margin: "1% auto" }}
-          />
+          <img alt="icon" src={logoBlack} className={styles.logo_black} />
           <IconButton onClick={handleDrawerClose}>
             {theme.direction === "ltr" ? (
               <ChevronLeftIcon />
@@ -111,11 +104,7 @@ export default function PersistentSidebar({ mainOptions, secondaryOptions }) {
         <Divider />
         <List onClick={handleDrawerClose}>
           {mainOptions.map(({ text, Icon, path }, index) => (
-            <Link
-              to={path}
-              key={index}
-              style={{ textDecoration: "none", color: "black" }}
-            >
+            <Link to={path} key={index} className={styles.link}>
               <ListItem disablePadding>
                 <ListItemButton>
                   <ListItemIcon>
@@ -130,19 +119,7 @@ export default function PersistentSidebar({ mainOptions, secondaryOptions }) {
         <Divider />
         <List onClick={handleDrawerClose}>
           {secondaryOptions.map(({ text, Icon, path }, index) => (
-            <Link
-              to={path}
-              key={index}
-              // Had to use inline styles because they do not work inside links
-              style={{
-                textDecoration: "none",
-                color: "black",
-                position: "fixed",
-                bottom: 0,
-                textAlign: "center",
-                paddingBottom: 10,
-              }}
-            >
+            <Link to={path} key={index} className={styles.link_bottom}>
               <ListItem disablePadding>
                 <ListItemButton>
                   <ListItemIcon>

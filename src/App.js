@@ -1,6 +1,6 @@
 import { Container } from "@mui/system";
 import { Outlet } from "react-router-dom";
-import PersistentSidebar from "./components/PersistentSidebar";
+import PersistentSidebar from "./components/PersistentSidebar/PersistentSidebar";
 import Pets from "@mui/icons-material/Pets";
 import AddIcon from "@mui/icons-material/Add";
 import EmojiPeople from "@mui/icons-material/EmojiPeople";
