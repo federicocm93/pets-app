@@ -1,20 +1,27 @@
-import { Container, Grid, Paper, Typography } from "@mui/material";
+import {
+  Container,
+  Grid,
+  Paper,
+  Typography,
+  Snackbar,
+  Alert,
+  Button,
+} from "@mui/material";
 import { useRef, useState } from "react";
 import { addImage, addPet } from "../../api/pets.service";
 import { Formik, Form } from "formik";
 import * as Yup from "yup";
 import TextInput from "../Shared/TextInput";
-import Button from "@mui/material/Button";
 import styles from "./NewFound.module.css";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import TextField from "@mui/material/TextField";
-import Alert from "@mui/material/Alert";
 import { DateTime } from "luxon";
 import "../style.css";
 
 export default function NewFound() {
   const [previewImage, setPreviewImage] = useState();
   const [serverError, setServerError] = useState(null);
+  const [submitted, setSubmitted] = useState(false);
 
   const INITIAL_FORM_VALUES = {
     name: "",
@@ -31,7 +38,6 @@ export default function NewFound() {
   });
 
   const save = (values) => {
-    console.log(values);
     addImage(values.image)
       .then((imageUrl) => {
         values.image = imageUrl;
@@ -42,6 +48,9 @@ export default function NewFound() {
       })
       .catch(() => {
         setServerError("Error al cargar imágen");
+      })
+      .finally(() => {
+        setSubmitted(true);
       });
   };
 
@@ -71,7 +80,7 @@ export default function NewFound() {
             resetForm();
           }}
         >
-          {({ values, handleChange, isValid, dirty, setFieldValue }) => (
+          {({ values, isValid, dirty, setFieldValue }) => (
             <Form>
               <Grid container spacing={2} alignItems="center">
                 <Grid item xs={12} align="center">
@@ -136,6 +145,15 @@ export default function NewFound() {
           )}
         </Formik>
       </Paper>
+      <Snackbar
+        anchorOrigin={{ vertical: "top", horizontal: "center" }}
+        open={submitted && !serverError}
+        autoHideDuration={1500}
+      >
+        <Alert severity="success" sx={{ width: "100%" }}>
+          Has agregado una mascota perdida!
+        </Alert>
+      </Snackbar>
     </Container>
   );
 }

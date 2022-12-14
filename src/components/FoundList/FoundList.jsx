@@ -1,7 +1,7 @@
 import PetCard from "../PetCard";
 import InfiniteScroll from "react-infinite-scroll-component";
 import { useEffect, useState } from "react";
-import { Container, Skeleton, Grid, Fab } from "@mui/material";
+import { Container, Skeleton, Grid, Fab, Alert } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
 import { Link } from "react-router-dom";
 import { getFoundPets } from "../../api/pets.service";
@@ -9,6 +9,7 @@ import styles from "./FoundList.module.css";
 
 export default function FoundList() {
   const [foundList, setFoundList] = useState([]);
+  const [hasMore, setHasMore] = useState(true);
 
   useEffect(() => {
     getFoundPets().then((data) => {
@@ -18,10 +19,12 @@ export default function FoundList() {
 
   const getMoreFound = () => {
     getFoundPets().then((list) => {
-      console.log(list);
+      if (!list.length) {
+        setHasMore(false);
+      }
       setFoundList([...foundList, ...list]);
-      console.log(list);
     });
+    return foundList;
   };
 
   return (
@@ -47,31 +50,34 @@ export default function FoundList() {
       <InfiniteScroll
         dataLength={foundList.length}
         next={getMoreFound}
-        hasMore={true}
+        hasMore={hasMore}
+        scrollThreshold={0.95}
+        endMessage={
+          <Alert severity="info" sx={{ margin: 2, borderRadius: 2 }}>
+            No existen más perdidos
+          </Alert>
+        }
         loader={
-          <Grid sx={{ flexGrow: 1 }} container spacing={2}>
+          <Grid sx={{ flexGrow: 1 }} container>
             <Grid item xs={12}>
               <Skeleton
                 variant="rectangular"
                 animation="wave"
-                height={350}
-                sx={{ borderRadius: 2 }}
+                sx={{ borderRadius: 2, height: 400, margin: 2 }}
               />
             </Grid>
             <Grid item xs={12}>
               <Skeleton
                 variant="rectangular"
                 animation="wave"
-                height={350}
-                sx={{ borderRadius: 2 }}
+                sx={{ borderRadius: 2, height: 400, margin: 2 }}
               />
             </Grid>
             <Grid item xs={12}>
               <Skeleton
                 variant="rectangular"
                 animation="wave"
-                height={350}
-                sx={{ borderRadius: 2 }}
+                sx={{ borderRadius: 2, height: 400, margin: 2 }}
               />
             </Grid>
           </Grid>
