@@ -4,6 +4,8 @@ import PersistentSidebar from "./components/PersistentSidebar/PersistentSidebar"
 import Pets from "@mui/icons-material/Pets";
 import AddIcon from "@mui/icons-material/Add";
 import EmojiPeople from "@mui/icons-material/EmojiPeople";
+import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
+import { AdapterLuxon } from "@mui/x-date-pickers/AdapterLuxon";
 import {
   ThemeProvider,
   createTheme,
@@ -51,13 +53,15 @@ function App() {
 
   return (
     <ThemeProvider theme={theme}>
-      <Container>
-        <PersistentSidebar
-          mainOptions={sidebarMainOptions}
-          secondaryOptions={sidebarSecondaryOptions}
-        />
-        <Outlet />
-      </Container>
+      <LocalizationProvider dateAdapter={AdapterLuxon} adapterLocale="es-AR">
+        <Container>
+          <PersistentSidebar
+            mainOptions={sidebarMainOptions}
+            secondaryOptions={sidebarSecondaryOptions}
+          />
+          <Outlet />
+        </Container>
+      </LocalizationProvider>
     </ThemeProvider>
   );
 }

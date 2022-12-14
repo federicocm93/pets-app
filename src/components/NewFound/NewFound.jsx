@@ -6,16 +6,21 @@ import * as Yup from "yup";
 import TextInput from "../Shared/TextInput";
 import Button from "@mui/material/Button";
 import styles from "./NewFound.module.css";
+import { DatePicker } from "@mui/x-date-pickers/DatePicker";
+import TextField from "@mui/material/TextField";
+import Alert from "@mui/material/Alert";
+import { DateTime } from "luxon";
 import "../style.css";
 
 export default function NewFound() {
   const [previewImage, setPreviewImage] = useState();
+  const [serverError, setServerError] = useState(null);
 
   const INITIAL_FORM_VALUES = {
     name: "",
     breed: "",
     image: "",
-    when: "",
+    when: DateTime.now().toISODate(),
   };
 
   const FORM_VALIDATION = Yup.object().shape({
@@ -27,10 +32,17 @@ export default function NewFound() {
 
   const save = (values) => {
     console.log(values);
-    addImage(values.image).then((imageUrl) => {
-      values.image = imageUrl;
-      addPet(values);
-    });
+    addImage(values.image)
+      .then((imageUrl) => {
+        values.image = imageUrl;
+        values.when = values.when.toISODate();
+        addPet(values).catch(() => {
+          setServerError("Error al guardar datos en el servidor");
+        });
+      })
+      .catch(() => {
+        setServerError("Error al cargar imágen");
+      });
   };
 
   const uploadFile = () => {
@@ -54,7 +66,10 @@ export default function NewFound() {
         <Formik
           initialValues={INITIAL_FORM_VALUES}
           validationSchema={FORM_VALIDATION}
-          onSubmit={save}
+          onSubmit={(values, { resetForm }) => {
+            save(values);
+            resetForm();
+          }}
         >
           {({ values, handleChange, isValid, dirty, setFieldValue }) => (
             <Form>
@@ -83,6 +98,18 @@ export default function NewFound() {
                     }}
                   />
                 </Grid>
+                <Grid item xs={12}>
+                  <DatePicker
+                    label="Fecha de encuentro"
+                    value={values.when}
+                    onChange={(newValue) => {
+                      setFieldValue("when", newValue);
+                    }}
+                    renderInput={(params) => (
+                      <TextField fullWidth {...params} />
+                    )}
+                  />
+                </Grid>
                 <Grid item xs={6}>
                   <TextInput name="name" label="Nombre de la mascota" />
                 </Grid>
@@ -90,16 +117,14 @@ export default function NewFound() {
                   {/* TODO: Implement search select */}
                   <TextInput name="breed" label="Raza" />
                 </Grid>
-                <Grid item xs={12}>
-                  {/* TODO: Implement date selector */}
-                  <TextInput name="when" label="Fecha de encuentro" />
+                <Grid item xs={12} align="center">
+                  {serverError && <Alert severity="error">{serverError}</Alert>}
                 </Grid>
                 <Grid item xs={12} align="center">
-                  {/* TODO: Implement date selector */}
                   <Button
                     variant="contained"
                     type="submit"
-                    disabled={!isValid || !dirty}
+                    disabled={!isValid || !dirty || serverError}
                     color="secondary"
                     sx={{ width: "100%" }}
                   >
