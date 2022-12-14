@@ -1,10 +1,22 @@
 import { db, storage } from "../db/firebase";
-import { collection, getDocs, query, where, addDoc } from "firebase/firestore";
+import {
+  collection,
+  getDocs,
+  query,
+  where,
+  addDoc,
+  limit,
+  getDocsFromServer,
+  orderBy,
+  startAfter,
+} from "firebase/firestore";
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import { v4 } from "uuid";
 
+const petsRef = collection(db, "lost_pets");
+
 export const addPet = (pet) => {
-  return addDoc(collection(db, "lost_pets"), {
+  return addDoc(petsRef, {
     name: pet.name,
     breed: pet.breed,
     image: pet.image,
@@ -19,8 +31,15 @@ export const addImage = (image) => {
   });
 };
 
-export async function getPets() {
-  const querySnapshot = await getDocs(collection(db, "lost_pets"));
+let lastVisible;
+
+export async function getFoundPets() {
+  const querySnapshot = await getDocsFromServer(
+    lastVisible
+      ? query(petsRef, orderBy("when"), startAfter(lastVisible), limit(4))
+      : query(petsRef, orderBy("when"), limit(4))
+  );
+  lastVisible = querySnapshot.docs[querySnapshot.docs.length - 1];
   return querySnapshot.docs.map((doc) => {
     return {
       id: doc.id,
@@ -30,9 +49,7 @@ export async function getPets() {
 }
 
 export async function getPetsById(id) {
-  const querySnapshot = await getDocs(
-    query(collection(db, "lost_pets"), where("id", "==", id))
-  );
+  const querySnapshot = await getDocs(query(petsRef, where("id", "==", id)));
   return querySnapshot.docs.map((doc) => {
     return {
       id: doc.id,

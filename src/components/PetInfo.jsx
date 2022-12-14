@@ -6,6 +6,7 @@ import { CardActionArea, Container } from "@mui/material";
 import { useParams } from "react-router-dom";
 import { getPetsById } from "../api/pets.service";
 import { useEffect, useState } from "react";
+import { DateTime } from "luxon";
 
 export default function PetInfo() {
   let params = useParams();
@@ -30,7 +31,7 @@ export default function PetInfo() {
               {found.breed}
             </Typography>
             <Typography variant="body2" color="text.secondary">
-              Perdido el: {found.when}
+              Perdido el: {DateTime.fromISO(found.when).toLocaleString()}
             </Typography>
           </CardContent>
         </CardActionArea>
