@@ -27,7 +27,7 @@ export default function NewFound() {
     name: Yup.string().required("Campo requerido"),
     breed: Yup.string().required("Campo requerido"),
     image: Yup.string().required("Campo requerido"),
-    when: Yup.string().required("Campo requerido"), // TODO: Validate correctly
+    when: Yup.string().required("Campo requerido"),
   });
 
   const save = (values) => {

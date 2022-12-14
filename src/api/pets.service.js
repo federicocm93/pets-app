@@ -4,16 +4,12 @@ import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import { v4 } from "uuid";
 
 export const addPet = (pet) => {
-  try {
-    addDoc(collection(db, "lost_pets"), {
-      name: pet.name,
-      breed: pet.breed,
-      image: pet.image,
-      when: pet.when,
-    });
-  } catch (e) {
-    console.error("Error adding document: ", e);
-  }
+  return addDoc(collection(db, "lost_pets"), {
+    name: pet.name,
+    breed: pet.breed,
+    image: pet.image,
+    when: pet.when,
+  });
 };
 
 export const addImage = (image) => {

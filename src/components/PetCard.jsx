@@ -3,6 +3,7 @@ import CardContent from "@mui/material/CardContent";
 import CardMedia from "@mui/material/CardMedia";
 import Typography from "@mui/material/Typography";
 import { CardActionArea } from "@mui/material";
+import { DateTime } from "luxon";
 
 export default function PetCard({ name, breed, image, when }) {
   return (
@@ -17,7 +18,7 @@ export default function PetCard({ name, breed, image, when }) {
             {breed}
           </Typography>
           <Typography variant="body2" color="text.secondary">
-            Perdido el: {when}
+            Perdido el: {DateTime.fromISO(when).toLocaleString()}
           </Typography>
         </CardContent>
       </CardActionArea>
