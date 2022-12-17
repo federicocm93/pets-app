@@ -5,8 +5,8 @@ import {
   Typography,
   Snackbar,
   Alert,
-  Button,
 } from "@mui/material";
+import LoadingButton from "@mui/lab/LoadingButton";
 import { useRef, useState } from "react";
 import { addImage, addPet } from "../../api/pets.service";
 import { Formik, Form } from "formik";
@@ -16,18 +16,22 @@ import styles from "./NewFound.module.css";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import TextField from "@mui/material/TextField";
 import { DateTime } from "luxon";
+import imagePlaceholder from "../../imagePlaceholder.jpeg";
 import "../style.css";
 
 export default function NewFound() {
   const [previewImage, setPreviewImage] = useState();
   const [serverError, setServerError] = useState(null);
   const [submitted, setSubmitted] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
+  const maxDate = DateTime.now();
 
   const INITIAL_FORM_VALUES = {
     name: "",
     breed: "",
     image: "",
-    when: DateTime.now().toISODate(),
+    when: DateTime.now(),
   };
 
   const FORM_VALIDATION = Yup.object().shape({
@@ -38,7 +42,8 @@ export default function NewFound() {
   });
 
   const save = (values) => {
-    addImage(values.image)
+    setIsSubmitting(true);
+    return addImage(values.image)
       .then((imageUrl) => {
         values.image = imageUrl;
         values.when = values.when.toISODate();
@@ -50,6 +55,7 @@ export default function NewFound() {
         setServerError("Error al cargar imágen");
       })
       .finally(() => {
+        setIsSubmitting(false);
         setSubmitted(true);
       });
   };
@@ -76,8 +82,10 @@ export default function NewFound() {
           initialValues={INITIAL_FORM_VALUES}
           validationSchema={FORM_VALIDATION}
           onSubmit={(values, { resetForm }) => {
-            save(values);
-            resetForm();
+            save(values).then(() => {
+              resetForm();
+              setPreviewImage(null);
+            });
           }}
         >
           {({ values, isValid, dirty, setFieldValue }) => (
@@ -86,11 +94,8 @@ export default function NewFound() {
                 <Grid item xs={12} align="center">
                   <img
                     alt="img"
-                    src={
-                      previewImage ||
-                      "https://uning.es/wp-content/uploads/2016/08/ef3-placeholder-image.jpg"
-                    }
-                    className="centered-img"
+                    src={previewImage || imagePlaceholder}
+                    className={styles.centered_img}
                     onClick={uploadFile}
                   />
                   <input
@@ -111,6 +116,7 @@ export default function NewFound() {
                   <DatePicker
                     label="Fecha de encuentro"
                     value={values.when}
+                    maxDate={maxDate}
                     onChange={(newValue) => {
                       setFieldValue("when", newValue);
                     }}
@@ -127,18 +133,16 @@ export default function NewFound() {
                   <TextInput name="breed" label="Raza" />
                 </Grid>
                 <Grid item xs={12} align="center">
-                  {serverError && <Alert severity="error">{serverError}</Alert>}
-                </Grid>
-                <Grid item xs={12} align="center">
-                  <Button
+                  <LoadingButton
                     variant="contained"
                     type="submit"
-                    disabled={!isValid || !dirty || serverError}
+                    disabled={!isValid || !dirty || serverError || isSubmitting}
+                    loading={isSubmitting}
                     color="secondary"
                     sx={{ width: "100%" }}
                   >
                     Guardar
-                  </Button>
+                  </LoadingButton>
                 </Grid>
               </Grid>
             </Form>
@@ -146,9 +150,21 @@ export default function NewFound() {
         </Formik>
       </Paper>
       <Snackbar
-        anchorOrigin={{ vertical: "top", horizontal: "center" }}
+        anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
+        open={submitted && serverError}
+        autoHideDuration={3000}
+        sx={{ borderRadius: 2 }}
+      >
+        <Alert severity="error" sx={{ width: "100%" }}>
+          {serverError}
+        </Alert>
+      </Snackbar>
+      <Snackbar
+        anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
         open={submitted && !serverError}
-        autoHideDuration={1500}
+        autoHideDuration={3000}
+        onClose={() => setSubmitted(false)}
+        sx={{ borderRadius: 2 }}
       >
         <Alert severity="success" sx={{ width: "100%" }}>
           Has agregado una mascota perdida!

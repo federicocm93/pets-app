@@ -5,3 +5,9 @@
 .input {
   display: none;
 }
+
+.centered_img {
+  max-width: 100%;
+  height: 295px;
+  margin: auto;
+}
