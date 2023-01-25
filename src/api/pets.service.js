@@ -1,9 +1,9 @@
 import { db, storage } from "../db/firebase";
 import {
   collection,
-  getDocs,
+  doc,
+  getDoc,
   query,
-  where,
   addDoc,
   limit,
   getDocsFromServer,
@@ -49,11 +49,6 @@ export async function getFoundPets() {
 }
 
 export async function getPetsById(id) {
-  const querySnapshot = await getDocs(query(petsRef, where("id", "==", id)));
-  return querySnapshot.docs.map((doc) => {
-    return {
-      id: doc.id,
-      ...doc.data(),
-    };
-  })[0];
+  const snap = await getDoc(doc(db, "lost_pets", id));
+  return { id: snap.id, ...snap.data() };
 }
