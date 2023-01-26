@@ -12,12 +12,14 @@ import FoundList from "./components/FoundList/FoundList";
 import NotFound from "./components/NotFound";
 import PetInfo from "./components/PetInfo";
 import NewFound from "./components/NewFound/NewFound";
+import Login from "./components/Login/Login";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <BrowserRouter>
     <Routes>
       <Route path="/" element={<App />}>
+        <Route path="login" element={<Login />} />
         <Route path="list" element={<FoundList />} />
         <Route path="/list/:foundId" element={<PetInfo />} />
         <Route path="/found" element={<NewFound />} />
