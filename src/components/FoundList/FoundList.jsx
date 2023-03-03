@@ -1,29 +1,29 @@
 import PetCard from "../PetCard";
 import InfiniteScroll from "react-infinite-scroll-component";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { Container, Skeleton, Grid, Fab, Alert } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
 import { Link } from "react-router-dom";
-import { getFoundPets } from "../../api/pets.service";
+import { useDispatch, useSelector } from "react-redux";
 import styles from "./FoundList.module.css";
+import { fetchFoundPets } from "../../slices/foundPetsSlice";
 
 export default function FoundList() {
-  const [foundList, setFoundList] = useState([]);
-  const [hasMore, setHasMore] = useState(true);
+  // const [foundList, setFoundList] = useState([]);
+  const foundList = useSelector((state) => state.foundPets.list);
+  const hasMore = useSelector((state) => state.foundPets.hasMore);
+  const dispatch = useDispatch();
 
   useEffect(() => {
-    getFoundPets().then((data) => {
-      setFoundList(data);
-    });
+    dispatch(fetchFoundPets);
   }, []);
 
   const getMoreFound = () => {
-    getFoundPets().then((list) => {
-      if (!list.length) {
-        setHasMore(false);
-      }
-      setFoundList([...foundList, ...list]);
-    });
+    // Only fetch more if there are already items in the list
+    if (foundList.length) {
+      dispatch(fetchFoundPets);
+    }
+
     return foundList;
   };
 
