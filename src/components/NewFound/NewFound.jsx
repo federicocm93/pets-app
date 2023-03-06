@@ -75,9 +75,25 @@ export default function NewFound() {
         paddingBottom={2}
         sx={{ typography: { sm: "h4", xs: "h5" } }}
       >
-        Ingresá los datos de la mascota
+        ¡Ayudanos a encontrar a tu mascota perdida!
       </Typography>
-      <Paper sx={{ padding: 2, overflow: "hidden", borderRadius: 2 }}>
+      <Paper
+        sx={{
+          height: "600px",
+          padding: 2,
+          overflow: "hidden",
+          borderRadius: 2,
+        }}
+      >
+        <Typography
+          align="left"
+          color="textSecondary"
+          paddingBottom={2}
+          sx={{ typography: { sm: "h6", xs: "h57" } }}
+        >
+          Completá el siguiente formulario para que la información de tu amigo
+          peludo esté disponible para la comunidad de nuestra app:
+        </Typography>
         <Formik
           initialValues={INITIAL_FORM_VALUES}
           validationSchema={FORM_VALIDATION}
@@ -91,7 +107,7 @@ export default function NewFound() {
           {({ values, isValid, dirty, setFieldValue }) => (
             <Form>
               <Grid container spacing={2} alignItems="center">
-                <Grid item xs={12} align="center">
+                <Grid item xs={6} align="center">
                   <img
                     alt="img"
                     src={previewImage || imagePlaceholder}
@@ -112,37 +128,43 @@ export default function NewFound() {
                     }}
                   />
                 </Grid>
-                <Grid item xs={12}>
-                  <DatePicker
-                    label="Fecha de encuentro"
-                    value={values.when}
-                    maxDate={maxDate}
-                    onChange={(newValue) => {
-                      setFieldValue("when", newValue);
-                    }}
-                    renderInput={(params) => (
-                      <TextField fullWidth {...params} />
-                    )}
-                  />
-                </Grid>
-                <Grid item xs={6}>
-                  <TextInput name="name" label="Nombre de la mascota" />
-                </Grid>
-                <Grid item xs={6}>
-                  {/* TODO: Implement search select */}
-                  <TextInput name="breed" label="Raza" />
-                </Grid>
-                <Grid item xs={12} align="center">
-                  <LoadingButton
-                    variant="contained"
-                    type="submit"
-                    disabled={!isValid || !dirty || serverError || isSubmitting}
-                    loading={isSubmitting}
-                    color="secondary"
-                    sx={{ width: "100%" }}
-                  >
-                    Guardar
-                  </LoadingButton>
+                <Grid item xs={6} align="center">
+                  <Grid container spacing={2} alignItems="center">
+                    <Grid item xs={12}>
+                      <DatePicker
+                        label="Fecha de encuentro"
+                        value={values.when}
+                        maxDate={maxDate}
+                        onChange={(newValue) => {
+                          setFieldValue("when", newValue);
+                        }}
+                        renderInput={(params) => (
+                          <TextField fullWidth {...params} />
+                        )}
+                      />
+                    </Grid>
+                    <Grid item xs={6}>
+                      <TextInput name="name" label="Nombre de la mascota" />
+                    </Grid>
+                    <Grid item xs={6}>
+                      {/* TODO: Implement search select */}
+                      <TextInput name="breed" label="Raza" />
+                    </Grid>
+                    <Grid item xs={12} align="center">
+                      <LoadingButton
+                        variant="contained"
+                        type="submit"
+                        disabled={
+                          !isValid || !dirty || serverError || isSubmitting
+                        }
+                        loading={isSubmitting}
+                        color="secondary"
+                        sx={{ width: "100%" }}
+                      >
+                        Guardar
+                      </LoadingButton>
+                    </Grid>
+                  </Grid>
                 </Grid>
               </Grid>
             </Form>

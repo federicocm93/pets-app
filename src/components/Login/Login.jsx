@@ -1,4 +1,4 @@
-import { Container, Grid, Paper, Snackbar, Alert, Button } from "@mui/material";
+import { Container, Grid, Paper, Snackbar, Alert } from "@mui/material";
 import LoadingButton from "@mui/lab/LoadingButton";
 import { useState } from "react";
 import { addImage, addPet } from "../../api/pets.service";
