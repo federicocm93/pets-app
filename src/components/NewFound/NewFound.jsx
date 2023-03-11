@@ -16,7 +16,7 @@ import styles from "./NewFound.module.css";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import TextField from "@mui/material/TextField";
 import { DateTime } from "luxon";
-import imagePlaceholder from "../../imagePlaceholder.jpeg";
+import imagePlaceholder from "../../assets/imagePlaceholder.jpeg";
 import "../style.css";
 
 export default function NewFound() {

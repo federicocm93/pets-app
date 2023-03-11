@@ -5,7 +5,7 @@ import { addImage, addPet } from "../../api/pets.service";
 import { Formik, Form } from "formik";
 import * as Yup from "yup";
 import TextInput from "../Shared/TextInput";
-import logoBlack from "../../logo_black.png";
+import logoBlack from "../../assets/logo_black.png";
 import GoogleIcon from "@mui/icons-material/Google";
 import styles from "./Login.module.css";
 import "../style.css";
