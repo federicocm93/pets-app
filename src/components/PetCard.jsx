@@ -2,12 +2,19 @@ import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import CardMedia from "@mui/material/CardMedia";
 import Typography from "@mui/material/Typography";
-import { CardActionArea } from "@mui/material";
+import { Box, CardActionArea } from "@mui/material";
+import Divider from "@mui/material/Divider";
 import { DateTime } from "luxon";
 
 export default function PetCard({ name, breed, image, when }) {
   return (
-    <Card sx={{ margin: 2, borderRadius: 2 }}>
+    <Card
+      elevation={6}
+      sx={{
+        margin: 2,
+        borderRadius: 2,
+      }}
+    >
       <CardActionArea>
         <CardMedia
           component="img"
@@ -15,15 +22,18 @@ export default function PetCard({ name, breed, image, when }) {
           sx={{ width: "100%", height: "295px" }}
         />
         <CardContent>
-          <Typography gutterBottom variant="h5" component="div">
+          <Typography gutterBottom variant="h5" sx={{ fontWeight: "bold" }}>
             {name}
           </Typography>
-          <Typography variant="body2" color="text.secondary">
-            {breed}
-          </Typography>
-          <Typography variant="body2" color="text.secondary">
-            Perdido el: {DateTime.fromISO(when).toLocaleString()}
-          </Typography>
+          <Divider light={true} />
+          <Box paddingTop={2}>
+            <Typography variant="body2" color="text.secondary">
+              {breed}
+            </Typography>
+            <Typography variant="body2" color="text.secondary">
+              Perdido el: {DateTime.fromISO(when).toLocaleString()}
+            </Typography>
+          </Box>
         </CardContent>
       </CardActionArea>
     </Card>

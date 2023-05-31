@@ -14,7 +14,7 @@ import ListItem from "@mui/material/ListItem";
 import ListItemButton from "@mui/material/ListItemButton";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
-import logoBlack from "../../logo_black.png";
+import logoBlack from "../../assets/logo_black.png";
 import styles from "./PersistentSidebar.module.css";
 import { Link } from "react-router-dom";
 

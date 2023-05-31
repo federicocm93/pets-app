@@ -11,9 +11,13 @@ import {
   createTheme,
   responsiveFontSizes,
 } from "@mui/material/styles";
+import CssBaseline from "@mui/material/CssBaseline";
 
 let theme = createTheme({
   palette: {
+    background: {
+      default: "#f5f6fa",
+    },
     primary: {
       main: "#17b978",
       contrastText: "#ffff",
@@ -53,6 +57,7 @@ function App() {
 
   return (
     <ThemeProvider theme={theme}>
+      <CssBaseline />
       <LocalizationProvider dateAdapter={AdapterLuxon} adapterLocale="es-AR">
         <Container>
           <PersistentSidebar

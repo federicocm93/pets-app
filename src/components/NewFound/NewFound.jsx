@@ -5,6 +5,7 @@ import {
   Typography,
   Snackbar,
   Alert,
+  Box,
 } from "@mui/material";
 import LoadingButton from "@mui/lab/LoadingButton";
 import { useRef, useState } from "react";
@@ -69,31 +70,15 @@ export default function NewFound() {
 
   return (
     <Container className={styles.container}>
-      <Typography
-        align="center"
-        color="textPrimary"
-        paddingBottom={2}
-        sx={{ typography: { sm: "h4", xs: "h5" } }}
-      >
-        ¡Ayudanos a encontrar a tu mascota perdida!
-      </Typography>
       <Paper
+        elevation={6}
         sx={{
-          height: "600px",
+          height: "auto",
           padding: 2,
           overflow: "hidden",
           borderRadius: 2,
         }}
       >
-        <Typography
-          align="left"
-          color="textSecondary"
-          paddingBottom={2}
-          sx={{ typography: { sm: "h6", xs: "h57" } }}
-        >
-          Completá el siguiente formulario para que la información de tu amigo
-          peludo esté disponible para la comunidad de nuestra app:
-        </Typography>
         <Formik
           initialValues={INITIAL_FORM_VALUES}
           validationSchema={FORM_VALIDATION}
@@ -107,69 +92,74 @@ export default function NewFound() {
           {({ values, isValid, dirty, setFieldValue }) => (
             <Form>
               <Grid container spacing={2} alignItems="center">
-                <Grid item xs={6} align="center">
-                  <img
-                    alt="img"
-                    src={previewImage || imagePlaceholder}
-                    className={styles.centered_img}
-                    onClick={uploadFile}
-                  />
-                  <input
-                    type="file"
-                    name="file"
-                    id="file"
-                    ref={inputFile}
-                    className={styles.input}
-                    onChange={(event) => {
-                      setFieldValue("image", event.target.files[0]);
-                      setPreviewImage(
-                        URL.createObjectURL(event.target.files[0])
-                      );
+                <Grid item xs={12} align="center">
+                  <Box className={styles.box}>
+                    <img
+                      alt="img"
+                      src={previewImage || imagePlaceholder}
+                      className={styles.img}
+                      onClick={uploadFile}
+                    />
+                    <input
+                      type="file"
+                      name="file"
+                      id="file"
+                      ref={inputFile}
+                      className={styles.input}
+                      onChange={(event) => {
+                        setFieldValue("image", event.target.files[0]);
+                        setPreviewImage(
+                          URL.createObjectURL(event.target.files[0])
+                        );
+                      }}
+                    />
+                  </Box>
+                </Grid>
+                <Grid item xs={12}>
+                  <DatePicker
+                    label="Fecha de encuentro"
+                    value={values.when}
+                    maxDate={maxDate}
+                    onChange={(newValue) => {
+                      setFieldValue("when", newValue);
                     }}
+                    renderInput={(params) => (
+                      <TextField fullWidth {...params} />
+                    )}
                   />
                 </Grid>
-                <Grid item xs={6} align="center">
-                  <Grid container spacing={2} alignItems="center">
-                    <Grid item xs={12}>
-                      <DatePicker
-                        label="Fecha de encuentro"
-                        value={values.when}
-                        maxDate={maxDate}
-                        onChange={(newValue) => {
-                          setFieldValue("when", newValue);
-                        }}
-                        renderInput={(params) => (
-                          <TextField fullWidth {...params} />
-                        )}
-                      />
-                    </Grid>
-                    <Grid item xs={6}>
-                      <TextInput name="name" label="Nombre de la mascota" />
-                    </Grid>
-                    <Grid item xs={6}>
-                      {/* TODO: Implement search select */}
-                      <TextInput name="breed" label="Raza" />
-                    </Grid>
-                    <Grid item xs={12} align="center">
-                      <LoadingButton
-                        variant="contained"
-                        type="submit"
-                        disabled={
-                          !isValid || !dirty || serverError || isSubmitting
-                        }
-                        loading={isSubmitting}
-                        color="secondary"
-                        sx={{ width: "100%" }}
-                      >
-                        Guardar
-                      </LoadingButton>
-                    </Grid>
-                  </Grid>
+                <Grid item xs={12}>
+                  <TextInput name="name" label="Nombre de la mascota" />
+                </Grid>
+                <Grid item xs={12}>
+                  {/* TODO: Implement search select */}
+                  <TextInput name="breed" label="Raza" />
+                </Grid>
+                <Grid item xs={12} align="center">
+                  <LoadingButton
+                    variant="contained"
+                    type="submit"
+                    disabled={!isValid || !dirty || serverError || isSubmitting}
+                    loading={isSubmitting}
+                    color="secondary"
+                    sx={{ width: "100%" }}
+                  >
+                    Guardar
+                  </LoadingButton>
                 </Grid>
               </Grid>
             </Form>
           )}
         </Formik>
+        <Typography
+          variant="body2"
+          align="left"
+          color="textSecondary"
+          paddingTop={2}
+        >
+          Completá toda la información de tu amigo peludo asi estará disponible
+          para la comunidad:
+        </Typography>
       </Paper>
       <Snackbar
         anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
