@@ -6,6 +6,7 @@ import {
   Snackbar,
   Alert,
   Box,
+  Autocomplete,
 } from "@mui/material";
 import LoadingButton from "@mui/lab/LoadingButton";
 import { useRef, useState } from "react";
@@ -27,6 +28,8 @@ export default function NewFound() {
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const maxDate = DateTime.now();
+
+  const breeds = ["Labrador", "Beagle", "Pitbull", "Yorkshire", "Pug"];
 
   const INITIAL_FORM_VALUES = {
     name: "",
@@ -77,6 +80,9 @@ export default function NewFound() {
           padding: 2,
           overflow: "hidden",
           borderRadius: 2,
+          maxWidth: "550px",
+          maxHeight: "80%",
+          margin: "auto",
         }}
       >
         <Formik
@@ -132,8 +138,13 @@ export default function NewFound() {
                   <TextInput name="name" label="Nombre de la mascota" />
                 </Grid>
                 <Grid item xs={12}>
-                  {/* TODO: Implement search select */}
-                  <TextInput name="breed" label="Raza" />
+                  <Autocomplete
+                    id="combo-box-breeds"
+                    options={breeds}
+                    renderInput={(params) => (
+                      <TextInput {...params} name="breed" label="Raza" />
+                    )}
+                  />
                 </Grid>
                 <Grid item xs={12} align="center">
                   <LoadingButton

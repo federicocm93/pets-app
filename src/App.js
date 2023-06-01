@@ -12,24 +12,28 @@ import {
   responsiveFontSizes,
 } from "@mui/material/styles";
 import CssBaseline from "@mui/material/CssBaseline";
+import { esES } from "@mui/material/locale";
 
-let theme = createTheme({
-  palette: {
-    background: {
-      default: "#f5f6fa",
-    },
-    primary: {
-      main: "#17b978",
-      contrastText: "#ffff",
-    },
-    secondary: {
-      main: "#086972",
-    },
-    text: {
-      primary: "#212427",
+let theme = createTheme(
+  {
+    palette: {
+      background: {
+        default: "#f5f6fa",
+      },
+      primary: {
+        main: "#17b978",
+        contrastText: "#ffff",
+      },
+      secondary: {
+        main: "#086972",
+      },
+      text: {
+        primary: "#212427",
+      },
     },
   },
-});
+  esES
+);
 
 theme = responsiveFontSizes(theme);
 
