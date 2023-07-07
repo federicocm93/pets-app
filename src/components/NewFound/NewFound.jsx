@@ -81,7 +81,7 @@ export default function NewFound() {
           overflow: "hidden",
           borderRadius: 2,
           maxWidth: "550px",
-          maxHeight: "80%",
+          minHeight: "75vh",
           margin: "auto",
         }}
       >
@@ -144,6 +144,10 @@ export default function NewFound() {
                     renderInput={(params) => (
                       <TextInput {...params} name="breed" label="Raza" />
                     )}
+                    onChange={(e, newValue) => {
+                      console.log(values);
+                      setFieldValue("breed", newValue);
+                    }}
                   />
                 </Grid>
                 <Grid item xs={12} align="center">
@@ -169,7 +173,7 @@ export default function NewFound() {
           paddingTop={2}
         >
           Completá toda la información de tu amigo peludo asi estará disponible
-          para la comunidad:
+          para la comunidad
         </Typography>
       </Paper>
       <Snackbar
