@@ -1,5 +1,5 @@
 import { Container } from "@mui/system";
-import { Outlet } from "react-router-dom";
+import { useNavigate, Outlet } from "react-router-dom";
 import PersistentSidebar from "./components/PersistentSidebar/PersistentSidebar";
 import Pets from "@mui/icons-material/Pets";
 import AddIcon from "@mui/icons-material/Add";
@@ -13,6 +13,7 @@ import {
 } from "@mui/material/styles";
 import CssBaseline from "@mui/material/CssBaseline";
 import { esES } from "@mui/material/locale";
+import { useEffect } from "react";
 
 let theme = createTheme(
   {
@@ -29,6 +30,7 @@ let theme = createTheme(
       },
       text: {
         primary: "#212427",
+        error: "#d32f2f",
       },
     },
   },
@@ -38,6 +40,7 @@ let theme = createTheme(
 theme = responsiveFontSizes(theme);
 
 function App() {
+  const navigate = useNavigate();
   const sidebarMainOptions = [
     {
       text: "Perdidos",
@@ -58,6 +61,10 @@ function App() {
       path: "/about",
     },
   ];
+
+  useEffect(() => {
+    navigate("list");
+  }, []);
 
   return (
     <ThemeProvider theme={theme}>

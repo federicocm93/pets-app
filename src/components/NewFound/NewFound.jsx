@@ -95,11 +95,18 @@ export default function NewFound() {
             });
           }}
         >
-          {({ values, isValid, dirty, setFieldValue }) => (
+          {({
+            values,
+            isValid,
+            dirty,
+            setFieldValue,
+            setFieldTouched,
+            errors,
+          }) => (
             <Form>
               <Grid container spacing={2} alignItems="center">
                 <Grid item xs={12} align="center">
-                  <Box className={styles.box}>
+                  <Box className={errors.image ? styles.box_error : styles.box}>
                     <img
                       alt="img"
                       src={previewImage || imagePlaceholder}
@@ -112,6 +119,7 @@ export default function NewFound() {
                       id="file"
                       ref={inputFile}
                       className={styles.input}
+                      onClick={() => setFieldTouched("image")}
                       onChange={(event) => {
                         setFieldValue("image", event.target.files[0]);
                         setPreviewImage(
@@ -126,6 +134,7 @@ export default function NewFound() {
                     label="Fecha de encuentro"
                     value={values.when}
                     maxDate={maxDate}
+                    mask="__/__/___"
                     onChange={(newValue) => {
                       setFieldValue("when", newValue);
                     }}
@@ -145,7 +154,6 @@ export default function NewFound() {
                       <TextInput {...params} name="breed" label="Raza" />
                     )}
                     onChange={(e, newValue) => {
-                      console.log(values);
                       setFieldValue("breed", newValue);
                     }}
                   />
