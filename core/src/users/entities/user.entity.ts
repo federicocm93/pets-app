@@ -8,10 +8,10 @@ export class User {
   @Prop()
   name: string;
 
-  @Prop()
+  @Prop({ type: String, required: true, unique: true })
   username: string;
 
-  @Prop()
+  @Prop({ type: String, required: true, unique: true })
   email: string;
 
   @Prop()
