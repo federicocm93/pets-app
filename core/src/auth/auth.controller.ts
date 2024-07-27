@@ -2,7 +2,7 @@ import { Body, Controller, HttpCode, HttpStatus, Post } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { LoginDto } from './dto/login.dto';
 import { SignUpDto } from './dto/signup.dto';
-import { Public } from './public.decorator';
+import { Public } from './decorators/public.decorator';
 import { ApiTags } from '@nestjs/swagger';
 
 @ApiTags('Auth')

@@ -6,6 +6,7 @@ import {
   Patch,
   Param,
   Delete,
+  Req,
 } from '@nestjs/common';
 import { PetsService } from './pets.service';
 import { CreatePetDto } from './dto/create-pet.dto';
@@ -19,8 +20,9 @@ export class PetsController {
 
   @ApiBearerAuth()
   @Post()
-  create(@Body() createPetDto: CreatePetDto) {
-    return this.petsService.create(createPetDto);
+  create(@Req() request: Request, @Body() createPetDto: CreatePetDto) {
+    const user = request['user'];
+    return this.petsService.create(createPetDto, user.sub);
   }
 
   @ApiBearerAuth()

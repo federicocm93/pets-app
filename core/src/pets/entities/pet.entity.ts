@@ -16,6 +16,9 @@ export class Pet {
 
   @Prop({ type: Date })
   when: Date;
+
+  @Prop()
+  userId: string;
 }
 
 export const PetSchema = SchemaFactory.createForClass(Pet);

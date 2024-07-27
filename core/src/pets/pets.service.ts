@@ -12,8 +12,8 @@ export class PetsService {
     private petModel: Model<Pet>,
   ) {}
 
-  async create(createPetDto: CreatePetDto) {
-    return await this.petModel.create(createPetDto);
+  async create(createPetDto: CreatePetDto, userId: string) {
+    return await this.petModel.create({ ...createPetDto, userId: userId });
   }
 
   async findAll() {
