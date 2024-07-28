@@ -1,7 +1,6 @@
 import { Container, Grid, Paper, Snackbar, Alert } from "@mui/material";
 import LoadingButton from "@mui/lab/LoadingButton";
 import { useState } from "react";
-import { addImage, addPet } from "../../api/pets.service";
 import { Formik, Form } from "formik";
 import * as Yup from "yup";
 import TextInput from "../Shared/TextInput";
@@ -10,21 +9,26 @@ import GoogleIcon from "@mui/icons-material/Google";
 import styles from "./Login.module.css";
 import "../style.css";
 import { useEffect } from "react";
-import { signInWithGoogle } from "../../api/auth.service";
+import { loginIn, logInWithGoogle } from "../../api/auth.service";
+import { loginUser } from "../../actions/authActions";
+import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
 
 export default function Login() {
   const [serverError, setServerError] = useState(null);
   const [submitted, setSubmitted] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [user, setUser] = useState();
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const INITIAL_FORM_VALUES = {
-    user: "",
+    username: "",
     password: "",
   };
 
   const FORM_VALIDATION = Yup.object().shape({
-    user: Yup.string().required("Campo requerido"),
+    username: Yup.string().required("Campo requerido"),
     password: Yup.string().required("Campo requerido"),
   });
 
@@ -33,21 +37,22 @@ export default function Login() {
   }, [user]);
 
   const onGoogleLogin = () => {
-    signInWithGoogle().then((data) => setUser(data));
+    logInWithGoogle().then((data) => setUser(data));
   };
 
   const submit = (values) => {
+    console.log(values);
     setIsSubmitting(true);
-    return addImage(values.image)
-      .then((imageUrl) => {
-        values.image = imageUrl;
-        values.when = values.when.toISODate();
-        addPet(values).catch(() => {
-          setServerError("Error al guardar datos en el servidor");
-        });
+    return loginIn(values.username, values.password)
+      .then((response) => {
+        const { name, access_token } = response.data;
+        dispatch(loginUser({ name: name }));
+        localStorage.setItem("access_token", access_token);
+        navigate("/list");
       })
-      .catch(() => {
-        setServerError("Error al cargar imágen");
+      .catch((error) => {
+        console.log(error);
+        setServerError("Error al intentar loguearse");
       })
       .finally(() => {
         setIsSubmitting(false);
@@ -76,18 +81,16 @@ export default function Login() {
                 <Form>
                   <Grid container spacing={2} alignItems="center">
                     <Grid item xs={12}>
-                      <TextInput name="user" label="Usuario" />
+                      <TextInput name="username" label="Usuario" />
                     </Grid>
                     <Grid item xs={12}>
-                      <TextInput name="password" label="Contraseña" />
+                      <TextInput type="password" name="password" label="Contraseña" />
                     </Grid>
                     <Grid item xs={12} align="center">
                       <LoadingButton
                         variant="contained"
                         type="submit"
-                        disabled={
-                          !isValid || !dirty || serverError || isSubmitting
-                        }
+                        disabled={!isValid || !dirty || isSubmitting}
                         loading={isSubmitting}
                         color="secondary"
                         sx={{ width: "100%" }}
@@ -113,7 +116,7 @@ export default function Login() {
           </Paper>
           <Snackbar
             anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
-            open={submitted && serverError}
+            open={submitted && !!serverError}
             autoHideDuration={3000}
             sx={{ borderRadius: 2 }}
           >
@@ -129,7 +132,7 @@ export default function Login() {
             sx={{ borderRadius: 2 }}
           >
             <Alert severity="success" sx={{ width: "100%" }}>
-              Has agregado una mascota perdida!
+              Bienvenido!
             </Alert>
           </Snackbar>
         </Grid>

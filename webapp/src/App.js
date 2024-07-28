@@ -6,11 +6,7 @@ import AddIcon from "@mui/icons-material/Add";
 import EmojiPeople from "@mui/icons-material/EmojiPeople";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { AdapterLuxon } from "@mui/x-date-pickers/AdapterLuxon";
-import {
-  ThemeProvider,
-  createTheme,
-  responsiveFontSizes,
-} from "@mui/material/styles";
+import { ThemeProvider, createTheme, responsiveFontSizes } from "@mui/material/styles";
 import CssBaseline from "@mui/material/CssBaseline";
 import { esES } from "@mui/material/locale";
 import { useEffect } from "react";
@@ -61,10 +57,6 @@ function App() {
       path: "/about",
     },
   ];
-
-  useEffect(() => {
-    navigate("list");
-  }, []);
 
   return (
     <ThemeProvider theme={theme}>
