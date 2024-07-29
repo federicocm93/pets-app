@@ -1,5 +1,5 @@
 import { Container } from "@mui/system";
-import { useNavigate, Outlet } from "react-router-dom";
+import { Outlet } from "react-router-dom";
 import PersistentSidebar from "./components/PersistentSidebar/PersistentSidebar";
 import Pets from "@mui/icons-material/Pets";
 import AddIcon from "@mui/icons-material/Add";
@@ -9,7 +9,14 @@ import { AdapterLuxon } from "@mui/x-date-pickers/AdapterLuxon";
 import { ThemeProvider, createTheme, responsiveFontSizes } from "@mui/material/styles";
 import CssBaseline from "@mui/material/CssBaseline";
 import { esES } from "@mui/material/locale";
-import { useEffect } from "react";
+import Login from "./components/Login/Login";
+import FoundList from "./components/FoundList/FoundList";
+import NotFound from "./components/NotFound";
+import PetInfo from "./components/PetInfo";
+import NewFound from "./components/NewFound/NewFound";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import PublicRoutes from "./publicRoutes";
+import PrivateRoutes from "./privateRoutes";
 
 let theme = createTheme(
   {
@@ -36,7 +43,6 @@ let theme = createTheme(
 theme = responsiveFontSizes(theme);
 
 function App() {
-  const navigate = useNavigate();
   const sidebarMainOptions = [
     {
       text: "Perdidos",
@@ -62,13 +68,26 @@ function App() {
     <ThemeProvider theme={theme}>
       <CssBaseline />
       <LocalizationProvider dateAdapter={AdapterLuxon} adapterLocale="es-AR">
-        <Container>
+        <BrowserRouter>
+          <Routes>
+            <Route element={<PublicRoutes />}>
+              <Route path="login" element={<Login />} />
+            </Route>
+            <Route element={<PrivateRoutes />}>
+              <Route path="list" element={<FoundList />} />
+              <Route path="/list/:foundId" element={<PetInfo />} />
+              <Route path="/found" element={<NewFound />} />
+              <Route path="*" element={<FoundList />} />
+            </Route>
+          </Routes>
+        </BrowserRouter>
+
+        {/* TODO: Move this to dashboard
           <PersistentSidebar
             mainOptions={sidebarMainOptions}
             secondaryOptions={sidebarSecondaryOptions}
           />
-          <Outlet />
-        </Container>
+          <Outlet /> */}
       </LocalizationProvider>
     </ThemeProvider>
   );
