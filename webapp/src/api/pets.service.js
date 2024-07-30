@@ -1,17 +1,11 @@
-import { db, storage } from "../db/firebase";
-import { collection, doc, getDoc, addDoc } from "firebase/firestore";
+import { storage } from "../db/firebase";
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import { v4 } from "uuid";
 import axios from "../axiosConfig";
 
-const petsRef = collection(db, "lost_pets");
-
 export const addPet = (pet) => {
-  return addDoc(petsRef, {
-    name: pet.name,
-    breed: pet.breed,
-    image: pet.image,
-    when: pet.when,
+  return axios.post("/api/pets", pet, {
+    headers: { Authorization: `Bearer ${localStorage.getItem("access_token")}` },
   });
 };
 
@@ -29,6 +23,7 @@ export async function getFoundPets(skip, limit) {
 }
 
 export async function getPetsById(id) {
-  const snap = await getDoc(doc(db, "lost_pets", id));
-  return { id: snap.id, ...snap.data() };
+  return axios.get(`/api/pets/${id}`, {
+    headers: { Authorization: `Bearer ${localStorage.getItem("access_token")}` },
+  });
 }

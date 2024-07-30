@@ -17,7 +17,6 @@ export default function FoundList() {
   }, [dispatch]);
 
   const handlePagination = (event, page) => {
-    console.log(page);
     dispatch(setCurrentPage(page));
     dispatch(fetchFoundPets());
   };
@@ -58,8 +57,8 @@ export default function FoundList() {
         <Grid container spacing={2}>
           {foundList.data.length ? (
             foundList.data.map((pet) => (
-              <Grid item xs={6} key={pet._id}>
-                <Link to={`${pet._id}`} key={pet._id} style={{ textDecoration: "none" }}>
+              <Grid item xs={12} md={6} key={pet._id}>
+                <Link to={`/list/${pet._id}`} key={pet._id} style={{ textDecoration: "none" }}>
                   <PetCard
                     key={pet._id}
                     name={pet.name}
