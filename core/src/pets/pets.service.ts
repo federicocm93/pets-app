@@ -22,7 +22,7 @@ export class PetsService {
     return { total, items };
   }
 
-  async findOne(id: number) {
+  async findOne(id: string) {
     return await this.petModel.findById(id);
   }
 

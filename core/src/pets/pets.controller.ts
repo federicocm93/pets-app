@@ -35,7 +35,7 @@ export class PetsController {
   @ApiBearerAuth()
   @Get(':id')
   findOne(@Param('id') id: string) {
-    return this.petsService.findOne(+id);
+    return this.petsService.findOne(id);
   }
 
   @ApiBearerAuth()
