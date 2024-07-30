@@ -16,8 +16,10 @@ export class PetsService {
     return await this.petModel.create({ ...createPetDto, userId: userId });
   }
 
-  async findAll() {
-    return await this.petModel.find();
+  async findAll(limit: number = 4, skip: number = 0) {
+    const total = await this.petModel.countDocuments().exec();
+    const items = await this.petModel.find().limit(limit).skip(skip).exec();
+    return { total, items };
   }
 
   async findOne(id: number) {

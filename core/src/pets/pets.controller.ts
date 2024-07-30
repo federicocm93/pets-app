@@ -7,6 +7,7 @@ import {
   Param,
   Delete,
   Req,
+  Query,
 } from '@nestjs/common';
 import { PetsService } from './pets.service';
 import { CreatePetDto } from './dto/create-pet.dto';
@@ -27,8 +28,8 @@ export class PetsController {
 
   @ApiBearerAuth()
   @Get()
-  findAll() {
-    return this.petsService.findAll();
+  findAll(@Query() { limit, skip }) {
+    return this.petsService.findAll(limit, skip);
   }
 
   @ApiBearerAuth()
