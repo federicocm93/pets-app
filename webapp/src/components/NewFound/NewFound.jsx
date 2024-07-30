@@ -71,7 +71,17 @@ export default function NewFound() {
   const inputFile = useRef(null);
 
   return (
-    <Container className={styles.container}>
+    <Box
+      sx={{
+        backgroundImage: "linear-gradient(#c5e2aa,white)",
+        backgroundSize: "cover",
+        width: "100%",
+        height: "100%",
+        padding: "20px",
+        display: "flex",
+        flexDirection: "column",
+      }}
+    >
       <Paper
         elevation={6}
         sx={{
@@ -185,6 +195,6 @@ export default function NewFound() {
           Has agregado una mascota perdida!
         </Alert>
       </Snackbar>
-    </Container>
+    </Box>
   );
 }

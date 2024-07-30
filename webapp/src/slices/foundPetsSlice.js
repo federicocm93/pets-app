@@ -1,8 +1,7 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { getFoundPets } from "../api/pets.service";
-import axios from "axios";
 
-const ITEMS_PER_PAGE = 10;
+const ITEMS_PER_PAGE = 4;
 
 const initialPaginationState = {
   currentPage: 1,

@@ -1,15 +1,5 @@
 import { db, storage } from "../db/firebase";
-import {
-  collection,
-  doc,
-  getDoc,
-  query,
-  addDoc,
-  limit,
-  getDocsFromServer,
-  orderBy,
-  startAfter,
-} from "firebase/firestore";
+import { collection, doc, getDoc, addDoc } from "firebase/firestore";
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import { v4 } from "uuid";
 import axios from "../axiosConfig";

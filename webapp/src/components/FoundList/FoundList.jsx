@@ -4,7 +4,6 @@ import { Container, Skeleton, Grid, Fab, Alert, Box, Pagination, Stack } from "@
 import AddIcon from "@mui/icons-material/Add";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import styles from "./FoundList.module.css";
 import { fetchFoundPets, setCurrentPage } from "../../slices/foundPetsSlice";
 import TextInput from "../Shared/TextInput";
 
@@ -17,9 +16,10 @@ export default function FoundList() {
     dispatch(fetchFoundPets());
   }, [dispatch]);
 
-  const handlePagination = (page) => {
+  const handlePagination = (event, page) => {
+    console.log(page);
     dispatch(setCurrentPage(page));
-    dispatch(fetchFoundPets);
+    dispatch(fetchFoundPets());
   };
 
   return (
@@ -31,7 +31,16 @@ export default function FoundList() {
         height: "100%",
       }}
     >
-      <Container id="scrollableContainer" maxWidth="md" className={styles.container}>
+      <Container
+        maxWidth="md"
+        sx={{
+          padding: "20px",
+          height: "100%",
+          display: "flex",
+          flexDirection: "column",
+          justifyContent: "space-between",
+        }}
+      >
         <Link to="../found">
           <Fab
             color="primary"
@@ -62,7 +71,7 @@ export default function FoundList() {
               </Grid>
             ))
           ) : (
-            <Grid sx={{ flexGrow: 1 }} container>
+            <Grid sx={{ flex: 1 }} container>
               <Grid item xs={6}>
                 <Skeleton
                   variant="rectangular"
@@ -94,7 +103,7 @@ export default function FoundList() {
             </Grid>
           )}
         </Grid>
-        <Stack spacing={2} alignItems="center">
+        <Stack spacing={2} alignItems="center" sx={{ marginTop: "auto" }}>
           <Pagination count={foundList.pagination.totalPages} onChange={handlePagination} />
         </Stack>
         {/* <Alert severity="info" sx={{ margin: 2, borderRadius: 2 }}>
