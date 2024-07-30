@@ -27,3 +27,9 @@ export async function getPetsById(id) {
     headers: { Authorization: `Bearer ${localStorage.getItem("access_token")}` },
   });
 }
+
+export async function getPetsByName(skip, limit, name) {
+  return axios.get(`/api/pets?skip=${skip}&limit=${limit}&name=${name}`, {
+    headers: { Authorization: `Bearer ${localStorage.getItem("access_token")}` },
+  });
+}

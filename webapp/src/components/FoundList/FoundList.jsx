@@ -1,24 +1,51 @@
 import PetCard from "../PetCard";
-import { useEffect } from "react";
-import { Container, Skeleton, Grid, Fab, Alert, Box, Pagination, Stack } from "@mui/material";
+import { useEffect, useState } from "react";
+import {
+  Container,
+  Skeleton,
+  Grid,
+  Fab,
+  Alert,
+  Box,
+  Pagination,
+  Stack,
+  TextField,
+} from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchFoundPets, setCurrentPage } from "../../slices/foundPetsSlice";
-import TextInput from "../Shared/TextInput";
+import {
+  fetchFoundPets,
+  searchFoundPetsByName,
+  setCurrentPage,
+  setSearch,
+} from "../../slices/foundPetsSlice";
+import { useDebounce } from "use-debounce";
 
 export default function FoundList() {
   const dispatch = useDispatch();
   const foundList = useSelector((state) => state.foundPets);
-  // const hasMore = useSelector((state) => state.foundPets.hasMore);
+  const [inputValue, setInputValue] = useState("");
+  const [debouncedValue] = useDebounce(inputValue, 500);
 
   useEffect(() => {
     dispatch(fetchFoundPets());
   }, [dispatch]);
 
+  useEffect(() => {
+    if (debouncedValue && debouncedValue.length > 2) {
+      dispatch(setSearch(debouncedValue));
+      dispatch(searchFoundPetsByName(debouncedValue));
+    }
+  }, [debouncedValue]);
+
   const handlePagination = (event, page) => {
     dispatch(setCurrentPage(page));
     dispatch(fetchFoundPets());
+  };
+
+  const handleInputChange = (event) => {
+    setInputValue(event.target.value);
   };
 
   return (
@@ -40,6 +67,7 @@ export default function FoundList() {
           justifyContent: "space-between",
         }}
       >
+        <TextField type="search" value={inputValue} onChange={handleInputChange} />
         <Link to="../found">
           <Fab
             color="primary"
