@@ -12,6 +12,7 @@ import {
 } from "firebase/firestore";
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import { v4 } from "uuid";
+import axios from "../axiosConfig";
 
 const petsRef = collection(db, "lost_pets");
 
@@ -31,20 +32,10 @@ export const addImage = (image) => {
   });
 };
 
-let lastVisible;
-
-export async function getFoundPets() {
-  const querySnapshot = await getDocsFromServer(
-    lastVisible
-      ? query(petsRef, orderBy("when"), startAfter(lastVisible), limit(4))
-      : query(petsRef, orderBy("when"), limit(4))
-  );
-  lastVisible = querySnapshot.docs[querySnapshot.docs.length - 1];
-  return querySnapshot.docs.map((doc) => {
-    return {
-      id: doc.id,
-      ...doc.data(),
-    };
+export async function getFoundPets(skip, limit) {
+  console.log(process.env.API_BASE_URL);
+  return axios.get(`/api/pets?skip=${skip}&limit=${limit}`, {
+    headers: { Authorization: `Bearer ${localStorage.getItem("access_token")}` },
   });
 }
 
