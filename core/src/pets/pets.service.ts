@@ -22,6 +22,16 @@ export class PetsService {
     return { total, items };
   }
 
+  async findAllByName(limit: number = 4, skip: number = 0, name) {
+    const total = await this.petModel.countDocuments().exec();
+    const items = await this.petModel
+      .find({ name: { $regex: name, $options: 'i' } })
+      .limit(limit)
+      .skip(skip)
+      .exec();
+    return { total, items };
+  }
+
   async findOne(id: string) {
     return await this.petModel.findById(id);
   }

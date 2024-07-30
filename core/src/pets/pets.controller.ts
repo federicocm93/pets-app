@@ -28,7 +28,14 @@ export class PetsController {
 
   @ApiBearerAuth()
   @Get()
-  findAll(@Query() { limit, skip }) {
+  findAll(
+    @Query('limit') limit: number,
+    @Query('skip') skip: number,
+    @Query('name') name: string,
+  ) {
+    if (name) {
+      return this.petsService.findAllByName(limit, skip, name);
+    }
     return this.petsService.findAll(limit, skip);
   }
 
