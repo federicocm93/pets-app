@@ -7,11 +7,11 @@ import TextInput from "../Shared/TextInput";
 import logoBlack from "../../assets/logo_black.png";
 // import GoogleIcon from "@mui/icons-material/Google";
 import styles from "./Login.module.css";
-import "../style.css";
 import { loginIn /*logInWithGoogle*/ } from "../../api/auth.service";
 import { loginUser } from "../../actions/authActions";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import backgroudImage from "./login-background.jpg";
 
 export default function Login() {
   const [serverError, setServerError] = useState(null);
@@ -64,74 +64,84 @@ export default function Login() {
   };
 
   return (
-    <Container
-      maxWidth="xs"
+    <Box
       sx={{
-        marginTop: "200px",
-        minHeight: "60vh",
         height: "100%",
-        display: "flex",
-        flexDirection: "column",
-        alignItems: "stretch",
+        backgroundImage: `url(${backgroudImage})`,
+        backgroundSize: "cover",
+        width: "100%",
       }}
     >
-      <Box
+      <Container
+        maxWidth="xs"
         sx={{
-          display: "flex",
-          justifyContent: "center",
-        }}
-      >
-        <img alt="icon" src={logoBlack} className={styles.logo_black} />
-      </Box>
-
-      <Paper
-        sx={{
-          flexGrow: 1,
-          height: "100%",
+          paddingTop: "200px",
+          minHeight: "60vh",
           display: "flex",
           flexDirection: "column",
-          borderRadius: 2,
+          alignItems: "stretch",
+          zIndex: 1,
         }}
       >
-        <Formik
-          initialValues={INITIAL_FORM_VALUES}
-          validationSchema={FORM_VALIDATION}
-          onSubmit={(values, { resetForm }) => {
-            submit(values).then(() => {
-              resetForm();
-            });
+        <Box
+          sx={{
+            display: "flex",
+            justifyContent: "center",
           }}
         >
-          {({ isValid, dirty }) => (
-            <Form style={{ height: "100%", flexGrow: 1, display: "flex", flexDirection: "column" }}>
-              <Container
-                sx={{
-                  padding: 4,
-                  height: "100%",
-                  flexGrow: 1,
-                  display: "flex",
-                  flexDirection: "column",
-                  alignItems: "center",
-                }}
+          <img alt="icon" src={logoBlack} className={styles.logo_black} />
+        </Box>
+
+        <Paper
+          sx={{
+            flexGrow: 1,
+            height: "100%",
+            display: "flex",
+            flexDirection: "column",
+            borderRadius: 2,
+          }}
+        >
+          <Formik
+            initialValues={INITIAL_FORM_VALUES}
+            validationSchema={FORM_VALIDATION}
+            onSubmit={(values, { resetForm }) => {
+              submit(values).then(() => {
+                resetForm();
+              });
+            }}
+          >
+            {({ isValid, dirty }) => (
+              <Form
+                style={{ height: "100%", flexGrow: 1, display: "flex", flexDirection: "column" }}
               >
-                <TextInput name="username" label="Usuario" />
-                <TextInput
-                  type="password"
-                  name="password"
-                  label="Contraseña"
-                  sx={{ marginTop: 2 }}
-                />
-                <LoadingButton
-                  variant="contained"
-                  type="submit"
-                  disabled={!isValid || !dirty || isSubmitting}
-                  loading={isSubmitting}
-                  color="secondary"
-                  sx={{ width: "100%", marginTop: "auto" }}
+                <Container
+                  sx={{
+                    padding: 3,
+                    height: "100%",
+                    flexGrow: 1,
+                    display: "flex",
+                    flexDirection: "column",
+                    alignItems: "center",
+                  }}
                 >
-                  Acceder
-                </LoadingButton>
-                {/* <GoogleIcon
+                  <TextInput name="username" label="Usuario" />
+                  <TextInput
+                    type="password"
+                    name="password"
+                    label="Contraseña"
+                    sx={{ marginTop: 2 }}
+                  />
+                  <LoadingButton
+                    variant="contained"
+                    type="submit"
+                    disabled={!isValid || !dirty || isSubmitting}
+                    loading={isSubmitting}
+                    color="secondary"
+                    sx={{ width: "100%", marginTop: "auto" }}
+                  >
+                    Acceder
+                  </LoadingButton>
+                  {/* <GoogleIcon
                         onClick={onGoogleLogin}
                         sx={{
                           height: "50px",
@@ -140,32 +150,33 @@ export default function Login() {
                       >
                         Google
                       </GoogleIcon> */}
-              </Container>
-            </Form>
-          )}
-        </Formik>
-      </Paper>
-      <Snackbar
-        anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
-        open={submitted && !!serverError}
-        autoHideDuration={3000}
-        sx={{ borderRadius: 2 }}
-      >
-        <Alert severity="error" sx={{ width: "100%" }}>
-          {serverError}
-        </Alert>
-      </Snackbar>
-      <Snackbar
-        anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
-        open={submitted && !serverError}
-        autoHideDuration={3000}
-        onClose={() => setSubmitted(false)}
-        sx={{ borderRadius: 2 }}
-      >
-        <Alert severity="success" sx={{ width: "100%" }}>
-          Bienvenido!
-        </Alert>
-      </Snackbar>
-    </Container>
+                </Container>
+              </Form>
+            )}
+          </Formik>
+        </Paper>
+        <Snackbar
+          anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
+          open={submitted && !!serverError}
+          autoHideDuration={3000}
+          sx={{ borderRadius: 2 }}
+        >
+          <Alert severity="error" sx={{ width: "100%" }}>
+            {serverError}
+          </Alert>
+        </Snackbar>
+        <Snackbar
+          anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
+          open={submitted && !serverError}
+          autoHideDuration={3000}
+          onClose={() => setSubmitted(false)}
+          sx={{ borderRadius: 2 }}
+        >
+          <Alert severity="success" sx={{ width: "100%" }}>
+            Bienvenido!
+          </Alert>
+        </Snackbar>
+      </Container>
+    </Box>
   );
 }

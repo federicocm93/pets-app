@@ -19,7 +19,6 @@ import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import TextField from "@mui/material/TextField";
 import { DateTime } from "luxon";
 import imagePlaceholder from "../../assets/imagePlaceholder.jpeg";
-import "../style.css";
 
 export default function NewFound() {
   const [previewImage, setPreviewImage] = useState();
@@ -95,14 +94,7 @@ export default function NewFound() {
             });
           }}
         >
-          {({
-            values,
-            isValid,
-            dirty,
-            setFieldValue,
-            setFieldTouched,
-            errors,
-          }) => (
+          {({ values, isValid, dirty, setFieldValue, setFieldTouched, errors }) => (
             <Form>
               <Grid container spacing={2} alignItems="center">
                 <Grid item xs={12} align="center">
@@ -122,9 +114,7 @@ export default function NewFound() {
                       onClick={() => setFieldTouched("image")}
                       onChange={(event) => {
                         setFieldValue("image", event.target.files[0]);
-                        setPreviewImage(
-                          URL.createObjectURL(event.target.files[0])
-                        );
+                        setPreviewImage(URL.createObjectURL(event.target.files[0]));
                       }}
                     />
                   </Box>
@@ -138,9 +128,7 @@ export default function NewFound() {
                     onChange={(newValue) => {
                       setFieldValue("when", newValue);
                     }}
-                    renderInput={(params) => (
-                      <TextField fullWidth {...params} />
-                    )}
+                    renderInput={(params) => <TextField fullWidth {...params} />}
                   />
                 </Grid>
                 <Grid item xs={12}>
@@ -150,9 +138,7 @@ export default function NewFound() {
                   <Autocomplete
                     id="combo-box-breeds"
                     options={breeds}
-                    renderInput={(params) => (
-                      <TextInput {...params} name="breed" label="Raza" />
-                    )}
+                    renderInput={(params) => <TextInput {...params} name="breed" label="Raza" />}
                     onChange={(e, newValue) => {
                       setFieldValue("breed", newValue);
                     }}
@@ -174,14 +160,8 @@ export default function NewFound() {
             </Form>
           )}
         </Formik>
-        <Typography
-          variant="body2"
-          align="left"
-          color="textSecondary"
-          paddingTop={2}
-        >
-          Completá toda la información de tu amigo peludo asi estará disponible
-          para la comunidad
+        <Typography variant="body2" align="left" color="textSecondary" paddingTop={2}>
+          Completá toda la información de tu amigo peludo asi estará disponible para la comunidad
         </Typography>
       </Paper>
       <Snackbar
