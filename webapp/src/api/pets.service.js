@@ -33,7 +33,6 @@ export const addImage = (image) => {
 };
 
 export async function getFoundPets(skip, limit) {
-  console.log(process.env.API_BASE_URL);
   return axios.get(`/api/pets?skip=${skip}&limit=${limit}`, {
     headers: { Authorization: `Bearer ${localStorage.getItem("access_token")}` },
   });

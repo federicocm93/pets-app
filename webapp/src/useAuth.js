@@ -1,10 +1,16 @@
+import { jwtDecode } from "jwt-decode";
+
 export const useAuth = () => {
-  //getting token from local storage
-  const user = localStorage.getItem("access_token");
-  //checking whether token is preset or not
-  if (user) {
-    return true;
-  } else {
+  const token = localStorage.getItem("access_token");
+  let decodedToken = jwtDecode(token);
+  let currentDate = new Date();
+
+  // JWT exp is in seconds
+  if (decodedToken.exp * 1000 < currentDate.getTime()) {
+    console.log("Token expired.");
     return false;
+  } else {
+    console.log("Valid token");
+    return true;
   }
 };
