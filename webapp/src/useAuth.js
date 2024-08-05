@@ -2,6 +2,9 @@ import { jwtDecode } from "jwt-decode";
 
 export const useAuth = () => {
   const token = localStorage.getItem("access_token");
+  if (!token) {
+    return false;
+  }
   let decodedToken = jwtDecode(token);
   let currentDate = new Date();
 

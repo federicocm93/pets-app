@@ -36,6 +36,8 @@ export default function FoundList() {
     if (debouncedValue && debouncedValue.length > 2) {
       dispatch(setSearch(debouncedValue));
       dispatch(searchFoundPetsByName(debouncedValue));
+    } else if (debouncedValue.length == 0) {
+      dispatch(fetchFoundPets());
     }
   }, [debouncedValue]);
 
@@ -55,6 +57,9 @@ export default function FoundList() {
         backgroundSize: "cover",
         width: "100%",
         height: "100%",
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
       }}
     >
       <Container
@@ -67,7 +72,23 @@ export default function FoundList() {
           justifyContent: "space-between",
         }}
       >
-        <TextField type="search" value={inputValue} onChange={handleInputChange} />
+        <TextField
+          type="search"
+          placeholder="Ingrese un nombre"
+          margin="normal"
+          value={inputValue}
+          onChange={handleInputChange}
+          sx={{
+            padding: "10px",
+            input: {
+              background: "white",
+              borderRadius: 4,
+              boxShadow: 1,
+            },
+            "& fieldset": { border: "none" },
+            flexGrow: 1,
+          }}
+        />
         <Link to="../found">
           <Fab
             color="primary"
@@ -82,7 +103,13 @@ export default function FoundList() {
             <AddIcon />
           </Fab>
         </Link>
-        <Grid container spacing={2}>
+        <Grid
+          container
+          spacing={2}
+          sx={{
+            flexGrow: 1,
+          }}
+        >
           {foundList.data.length ? (
             foundList.data.map((pet) => (
               <Grid item xs={12} md={6} key={pet._id}>
@@ -130,7 +157,12 @@ export default function FoundList() {
             </Grid>
           )}
         </Grid>
-        <Stack spacing={2} alignItems="center" sx={{ marginTop: "auto" }}>
+        <Stack
+          spacing={2}
+          alignItems="center"
+          justifyContent="end"
+          sx={{ marginTop: "auto", flexGrow: 1 }}
+        >
           <Pagination count={foundList.pagination.totalPages} onChange={handlePagination} />
         </Stack>
         {/* <Alert severity="info" sx={{ margin: 2, borderRadius: 2 }}>

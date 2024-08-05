@@ -69,6 +69,11 @@ function App() {
       <CssBaseline />
       <LocalizationProvider dateAdapter={AdapterLuxon} adapterLocale="es-AR">
         <BrowserRouter>
+          <PersistentSidebar
+            mainOptions={sidebarMainOptions}
+            secondaryOptions={sidebarSecondaryOptions}
+          />
+          <Outlet />
           <Routes>
             <Route element={<PublicRoutes />}>
               <Route path="login" element={<Login />} />
@@ -81,13 +86,6 @@ function App() {
             </Route>
           </Routes>
         </BrowserRouter>
-
-        {/* TODO: Move this to dashboard
-          <PersistentSidebar
-            mainOptions={sidebarMainOptions}
-            secondaryOptions={sidebarSecondaryOptions}
-          />
-          <Outlet /> */}
       </LocalizationProvider>
     </ThemeProvider>
   );

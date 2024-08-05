@@ -16,11 +16,7 @@ export default function PetCard({ name, breed, image, when }) {
       }}
     >
       <CardActionArea>
-        <CardMedia
-          component="img"
-          image={image}
-          sx={{ width: "100%", height: "295px" }}
-        />
+        <CardMedia component="img" image={image} sx={{ width: "100%", maxHeight: "200px" }} />
         <CardContent>
           <Typography gutterBottom variant="h5" sx={{ fontWeight: "bold" }}>
             {name}
