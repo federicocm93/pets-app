@@ -36,7 +36,7 @@ export default function FoundList() {
     if (debouncedValue && debouncedValue.length > 2) {
       dispatch(setSearch(debouncedValue));
       dispatch(searchFoundPetsByName(debouncedValue));
-    } else if (debouncedValue.length == 0) {
+    } else if (debouncedValue.length === 0) {
       dispatch(fetchFoundPets());
     }
   }, [debouncedValue]);
