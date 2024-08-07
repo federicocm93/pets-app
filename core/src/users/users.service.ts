@@ -15,7 +15,7 @@ export class UsersService {
     return await (await this.userModel.create(createUserDto)).toObject();
   }
 
-  async findById(id: number) {
+  async findById(id: string) {
     return await this.userModel.findById(id);
   }
 

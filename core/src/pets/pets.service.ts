@@ -1,19 +1,25 @@
-import { Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable } from '@nestjs/common';
 import { CreatePetDto } from './dto/create-pet.dto';
 import { UpdatePetDto } from './dto/update-pet.dto';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { Pet } from './entities/pet.entity';
+import { UsersService } from '../users/users.service';
 
 @Injectable()
 export class PetsService {
   constructor(
     @InjectModel('Pet')
     private petModel: Model<Pet>,
+    private usersService: UsersService,
   ) {}
 
   async create(createPetDto: CreatePetDto, userId: string) {
-    return await this.petModel.create({ ...createPetDto, userId: userId });
+    const user = await this.usersService.findById(userId);
+    if (!user) {
+      throw new BadRequestException('User not found');
+    }
+    return await this.petModel.create({ ...createPetDto, user: user });
   }
 
   async findAll(limit: number = 4, skip: number = 0) {
